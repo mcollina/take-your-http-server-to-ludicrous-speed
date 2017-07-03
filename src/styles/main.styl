@@ -1,0 +1,294 @@
+
+@import 'prism/themes/prism-okaidia.css'
+@import 'font-awesome/css/font-awesome.css'
+
+slide_width = 640px
+slide_height = 480px
+slide_background = white
+
+slide_transition_length = .6s
+slide_transition_easing = ease
+slide_transition_rotate_y = 90deg
+// Safari bugs out on 3d transform-origins, so we have to fake it
+slide_transition_nudge_x = -100px
+
+bullet_transition_length = .3s
+bullet_transition_easing = ease
+bullet_transition_translate_x = 16px
+
+// base
+
+*
+  box-sizing: border-box
+  margin: 0
+  padding: 0
+
+@media print
+  *
+    -webkit-print-color-adjust: exact
+
+@page
+  size: landscape
+  margin: 0
+
+// bespoke.js layout styles
+
+.bespoke-parent
+  transition: background slide_transition_length slide_transition_easing
+  position: absolute
+  top: 0
+  bottom: 0
+  left: 0
+  right: 0
+  overflow: hidden
+  @media print
+    overflow: visible
+    position: static
+
+.bespoke-theme-cube-slide-parent
+  position: absolute
+  top: 0
+  left: 0
+  right: 0
+  bottom: 0
+  perspective: 600px
+
+.bespoke-slide
+  transition:
+    transform slide_transition_length slide_transition_easing,
+    opacity slide_transition_length slide_transition_easing,
+    background slide_transition_length slide_transition_easing
+  transform-origin: 50% 50% 0
+  backface-visibility: hidden
+  display: flex
+  flex-direction: column
+  justify-content: center
+  align-items: center
+  text-align: center
+  width: slide_width
+  height: slide_height
+  position: absolute
+  top: 50%
+  margin-top: (slide_height / 2) * -1
+  left: 50%
+  margin-left: (slide_width / 2) * -1
+  background: slide_background
+  padding: 40px
+  border-radius: 0
+  @media print
+    zoom: 1 !important // disable bespoke-scale
+    height: 743px // seems to correspond with an A4, landscape page height
+    width: 100%
+    page-break-before: always
+    position: static
+    margin: 0
+    transition: none
+
+.bespoke-before
+  transform: translateX(slide_transition_nudge_x * -1) translateX(slide_width / -2) rotateY(slide_transition_rotate_y * -1) translateX(slide_width / -2)
+  @media print
+    transform: none
+
+.bespoke-after
+  transform: translateX(slide_transition_nudge_x) translateX(slide_width / 2) rotateY(slide_transition_rotate_y) translateX(slide_width / 2)
+  @media print
+    transform: none
+
+.bespoke-inactive
+  opacity: 0
+  pointer-events: none
+  @media print
+    opacity 1
+
+.bespoke-active
+  opacity: 1
+
+// bespoke-bullet styles
+
+.bespoke-bullet
+  transition: all bullet_transition_length bullet_transition_easing
+  @media print
+    transition: none
+
+.bespoke-bullet-inactive
+  opacity: 0
+  li&
+    transform: translateX(bullet_transition_translate_x)
+    @media print
+      transform: none
+  @media print
+    opacity: 1
+
+.bespoke-bullet-active
+  opacity: 1
+
+// bespoke-scale styles
+
+.bespoke-scale-parent
+  perspective: 600px
+  position: absolute
+  top: 0
+  left: 0
+  right: 0
+  bottom: 0
+  pointer-events: none
+  .bespoke-active
+    pointer-events: auto
+  @media print
+    transform: none !important
+
+// bespoke-progress styles
+
+.bespoke-progress-parent
+  position: absolute
+  top: 0
+  left: 0
+  right: 0
+  height: 2px
+  @media only screen and (min-width: 1366px)
+    height: 4px
+  @media print
+    display: none
+
+.bespoke-progress-bar
+  transition: width .6s ease
+  position: absolute
+  height: 100%
+  background: #0089f3
+  border-radius: 0 4px 4px 0
+
+// bespoke-backdrop styles
+
+.spaceballs
+  background: url('../images/spaceballs.jpg') center
+  background-size: contain
+  background-repeat: no-repeat
+  background-color: black
+
+.nodeconfeu
+  background-image: url('../images/nodeconfeu-2013-top.jpg')
+  background-size: cover
+
+.menodeconfeu
+  background-image: url('../images/me-nodeconf-eu-2013.jpg')
+  background-size: cover
+
+.speed
+  background-image: url('../images/speed.jpg')
+  background-size: cover
+
+.node-desktop
+  background-image: url('../images/node-desktop.png')
+  background-size: cover
+
+.hole
+  background-image: url('../images/hole.jpg')
+  background-size: cover
+
+.cheetah
+  background-image: url('../images/cheetah.jpg')
+  background-size: cover
+
+.bespoke-backdrop
+  position: absolute
+  top: 0
+  left: 0
+  right: 0
+  bottom: 0
+  transform: translateZ(0)
+  transition: opacity slide_transition_length slide_transition_easing
+  opacity: 0
+  z-index: -1
+  &-active
+    opacity: 1
+
+// prism styles
+
+pre
+  padding: 26px !important
+  border-radius: 8px
+
+// content styles
+
+body
+  font-family: helvetica, arial, sans-serif
+  font-size: 18px
+  color: #404040
+
+h1
+  font-size: 72px
+  line-height: 82px
+  letter-spacing: -2px
+  margin-bottom: 16px
+
+h2
+  font-size: 42px
+  letter-spacing: -1px
+  margin-bottom: 8px
+
+h3
+  font-size: 24px
+  font-weight: normal
+  margin-bottom: 24px
+  color: #606060
+
+hr
+  visibility: hidden
+  height: 20px
+
+ul
+  list-style: none
+
+li
+  margin-bottom: 12px
+
+p
+  margin: 0 100px 12px
+  line-height: 22px
+
+a
+  color: #0089f3
+  text-decoration: none
+
+.full-imgs
+  img
+    width: 100%
+    height: 100%
+
+.sensortag
+  background-image: url('../images/sensortag.jpg')
+  background-size: cover
+
+.sensortag-slide
+  background: transparent !important
+  color: white
+
+button
+  padding: 10px
+
+.transgray
+  background: rgba(0,0,0,0.3) !important
+  h3
+    color: white
+
+.transwhite
+  background: rgba(255,255,255,0.8) !important
+
+.trans
+  background: rgba(0,0,0,0) !important
+
+.copyright
+  font-size: 10px
+  text-align: right
+  position: absolute
+  bottom: 0px
+  right: 20px;
+  margin: 0px
+  padding: 0px
+  opacity: 0.5
+
+  a
+    color: #404040
+
+  img
+    height: 10px;

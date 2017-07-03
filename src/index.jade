@@ -1,0 +1,183 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1')
+    title Take your HTTP server to Ludicrous Speed
+
+    link(rel='stylesheet', type='text/css', href='build/build.css')
+
+  body
+
+    article
+
+      section
+        h1 Take your HTTP server to
+        img(src="./images/ludicrous.gif")
+        br
+        h3 by&nbsp;
+          a(href="http://twitter.com/matteocollina") @matteocollina
+
+        p.copyright.
+          Ludicrous speed is from Spaceballs
+
+      section(data-bespoke-backdrop='spaceballs').trans
+
+      section
+        h2 Prior Art: Reaching Ludicrous Speed
+
+      section
+        h2 Tools
+        ul.bullet
+          li
+            a(href="http://npm.im/autocannon") autocannon
+          li
+            a(href="http://npm.im/0x") 0x
+
+      section
+        h2 Another Web Framework?
+
+      section
+        h2 Node Core
+        pre
+          code.language-javascript.
+            'use strict'
+
+            var server = require('http').createServer(handle)
+
+            server.listen(3000)
+
+            function handle (req, res) {
+              res.end(JSON.stringify({ hello: 'world' }))
+            }
+
+      section
+        h2 Express
+        pre
+          code.language-javascript.
+            'use strict'
+
+            var express = require('express')
+            var app = express()
+
+            app.get('/', function (req, res) {
+              res.send({ hello: 'world' })
+            })
+
+            app.listen(3000)
+
+      section
+        img(src="images/core-vs-express.png" style="height: 100%")
+
+      section
+        a(href="flamegraph-core.html" target="blank")
+          img(src="images/flamegraph-bare.png" style="width: 90%")
+
+      section
+        a(href="flamegraph-express.html" target="blank")
+          img(src="images/flamegraph-express.png" style="width: 90%")
+
+      section
+        h2 Achieving ZERO overhead
+
+      section(data-bespoke-backdrop='cheetah').trans
+
+      section(data-bespoke-backdrop='hole').trans
+        h2(style="color: white; margin-bottom: -50%") Down the rabbit hole of performance optimizations
+
+      section
+        img(src="images/fastify.png" style="width: 90%")
+
+      section
+        pre
+          code.language-javascript.
+            'use strict'
+            const fastify = require('fastify')()
+            const schema = { schema: { response: { 200: {
+              type: 'object',
+              properties: {
+                hello: {
+                  type: 'string'
+                }
+              }
+            } } } }
+            fastify.get('/', schema, function (req, reply) {
+              reply.send({ hello: 'world' })
+            }).listen(3000)
+
+      section
+        img(src="images/core-vs-express-vs-fastify.png" style="height: 100%")
+
+      section
+        a(href="flamegraph-fastify-simple.html" target="blank")
+          img(src="images/flamegraph-fastify-simple.png" style="width: 90%")
+
+      section
+        h2 What worked
+        pre
+          code.language-none.
+            node --trace_opt --trace_inlining --trace_deopt
+
+      section
+        h2 How node works
+        br
+        img(src="images/event-loop.png" style="height: 80%")
+
+      section
+        h2 How to get fast
+        p
+          b fast
+          | &nbsp;means we can do more I/O
+        ul.bullet
+          li get an I/O event
+          li process the event
+          li release the CPU
+          li
+            b as fast as possible
+
+      section
+        h3 Most code does not need to go
+        img(src="./images/ludicrous.gif")
+
+      section
+        h3 You also need a FAST logger
+        ul.bullet
+          li Check out&nbsp;
+            a(href="http://npm.im/pino") pino
+          li Up to 17x faster than alternatives
+
+      section
+        h3 And a fast HTTP load testing tool
+        ul.bullet
+          li Check out&nbsp;
+            a(href="http://npm.im/autocannon") autocannon
+          li It can generate 10% more load than alternatives in C
+          li demo
+
+      section
+        h2 This presentation
+        ul.bullet
+          li
+            a(href="https://mcollina.github.io/take-your-http-server-to-ludicrous-speed").
+              https://mcollina.github.io/take-your-http-server-to-ludicrous-speed
+          li
+            a(href="https://github.com/mcollina/take-your-http-server-to-ludicrous-speed").
+              https://github.com/mcollina/take-your-http-server-to-ludicrous-speed
+
+      section.full-imgs
+        img(src='images/me.png')
+        h3
+          a(href='http://github.com/mcollina') http://github.com/mcollina
+
+      section
+        h1 Thanks!
+        a(href="http://nearform.com" style="width: 20%")
+          img(src="./images/nearform.svg")
+        br
+        p If you need help with Node.js
+        br
+        h3 <a href="mailto:matteo.collina@nearform.com">matteo.collina@nearform.com</a>
+        h3 <a href="http://twitter.com/matteocollina">@matteocollina</a> on Twitter
+        h3 <a href="http://www.nearform.com">www.nearform.com</a>
+
+    script(src='build/build.js')

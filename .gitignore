@@ -1,0 +1,5 @@
+node_modules
+bower_components
+dist
+pdf
+bespoke-theme-*.DS_Store

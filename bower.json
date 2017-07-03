@@ -1,0 +1,8 @@
+{
+  "name": "presentation-we-are-not-object-oriented-anymore",
+  "version": "0.0.0",
+  "dependencies": {
+    "font-awesome": "~4.4.0",
+    "prism": "gh-pages"
+  }
+}
