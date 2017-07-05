@@ -24,9 +24,12 @@ html
       section(data-bespoke-backdrop='spaceballs').trans
 
       section
-        h2 Prior Art: Reaching Ludicrous Speed
+        h3 2015
+        a(href="https://www.youtube.com/watch?v=_0W_822Dijg")
+          img(src="images/reaching-ludicrous-speed.png" style="width: 90%")
 
       section
+        h3 2016
         h2 Tools
         ul.bullet
           li
@@ -35,6 +38,27 @@ html
             a(href="http://npm.im/0x") 0x
 
       section
+        img(src='images/autocannon.png', style='width:100%;margin-bottom:5%;margin-top:-5%')
+        h3 HTTP load tester
+        h3 Trival cross platform installation
+        h3 Generates the same load as alternatives in C
+
+      section
+        img(src='images/0x.png', style='height:15%;margin-bottom:5%;margin-top:-5%')
+        img(src='images/0x-demo.gif', style='height:85%')
+
+      section
+        h2(style='font-size: 3.125em') 0x + autocannon = 👌
+
+      section
+        h3 2016
+        img(src="./images/pino.png" style="width: 90%")
+        ul.bullet
+          li 🌲 super fast, all natural json logger 🌲
+          li Up to 17x faster than alternatives
+
+      section
+        h3 2017
         h2 Another Web Framework?
 
       section
@@ -77,10 +101,8 @@ html
         a(href="flamegraph-express.html" target="blank")
           img(src="images/flamegraph-express.png" style="width: 90%")
 
-      section
-        h2 Achieving ZERO overhead
-
       section(data-bespoke-backdrop='cheetah').trans
+        h2 Achieving ZERO overhead
 
       section(data-bespoke-backdrop='hole').trans
         h2(style="color: white; margin-bottom: -50%") Down the rabbit hole of performance optimizations
@@ -113,10 +135,15 @@ html
           img(src="images/flamegraph-fastify-simple.png" style="width: 90%")
 
       section
-        h2 What worked
-        pre
-          code.language-none.
-            node --trace_opt --trace_inlining --trace_deopt
+        h2
+          em Fastify
+          | &nbsp;features
+        ul.bullet
+          li rich plugin system
+          li lifecycle methods
+          li middleware support
+          li decorators
+          li validations
 
       section
         h2 How node works
@@ -136,23 +163,85 @@ html
             b as fast as possible
 
       section
+        h2 The path to fast
+        ul.bullet
+          li JSON.stringify is slow
+          li middlewares are slow
+          li Routing is slow
+          li build-run approach
+
+      section
+        h2 The problem with JSON.stringify
+        ul.bullet
+          li recursive function, it cannot be optimized by V8
+          li generic code, cannot be type specific
+
+      section
+        img(src="images/fast-json-stringify.png" style="height: 100%")
+
+      section
+        h2 fast-json-stringify
+        ul.bullet
+          li schema-based JSON rendering
+          li generates code based on the schema
+          li new Function(), but it is safe
+
+      section
+        h2 helmet middlewares
+        img(src="images/middleware-express-vs-fastify.png" style="height: 100%")
+
+      section
+        a(href="flamegraph-express-helmet.html" target="blank")
+          img(src="images/flamegraph-express-helmet.png" style="width: 90%")
+
+      section
+        // https://github.com/expressjs/express/blob/9722202df964bfbfc0f579e4baeb5a4e1b43b344/lib/router/route.js#L98
+        img(src="images/express-closure-stack.png" style="height: 90%")
+
+      section
+        a(href="flamegraph-fastify-helmet.html" target="blank")
+          img(src="images/flamegraph-fastify-helmet.png" style="width: 90%")
+
+      section
+        h2 The problem with closures
+
+        pre
+          code.language-javascript.
+            function process (bigdata, cb) {
+              remoteCall(bigData, function (err, something) {
+                storeSomething(something, function (err, res) {
+                  // bigdata is still in scope!
+                  cb(null, res * 2)
+                })
+              })
+            }
+
+      section
+        h2 Avoid nested closures 1/2
+
+        pre
+          code.language-javascript.
+            function process (bigdata, cb) {
+              remoteCall(bigData, function (err, something) {
+                // bigdata exits scope here
+                callStoreSomething(something, cb)
+              })
+            }
+
+      section
+        h2 Avoid nested closures 2/2
+
+        pre
+          code.language-javascript.
+            function callStoreSomething(something, cb) {
+              storeSomething(something, function (err, res) {
+                cb(null, res * 2)
+              })
+            }
+
+      section
         h3 Most code does not need to go
         img(src="./images/ludicrous.gif")
-
-      section
-        h3 You also need a FAST logger
-        ul.bullet
-          li Check out&nbsp;
-            a(href="http://npm.im/pino") pino
-          li Up to 17x faster than alternatives
-
-      section
-        h3 And a fast HTTP load testing tool
-        ul.bullet
-          li Check out&nbsp;
-            a(href="http://npm.im/autocannon") autocannon
-          li It can generate 10% more load than alternatives in C
-          li demo
 
       section
         h2 This presentation
