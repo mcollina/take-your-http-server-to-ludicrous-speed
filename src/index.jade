@@ -115,7 +115,7 @@ html
           code.language-javascript.
             'use strict'
             const fastify = require('fastify')()
-            const schema = { schema: { response: { 200: {
+            const opts = { schema: { response: { 200: {
               type: 'object',
               properties: {
                 hello: {
@@ -123,7 +123,7 @@ html
                 }
               }
             } } } }
-            fastify.get('/', schema, function (req, reply) {
+            fastify.get('/', opts, function (req, reply) {
               reply.send({ hello: 'world' })
             }).listen(3000)
 
@@ -162,13 +162,51 @@ html
           li
             b as fast as possible
 
+      section(data-bespoke-backdrop='path').trans
+        h2(style="color: white") The path to fast
+
       section
-        h2 The path to fast
+        div.bullet
+          h3.bullet preinitialize data structures
+          h3.bullet JSON.stringify
+          h3.bullet routing
+          h3.bullet middlewares
+          h3.bullet decorators
+
+      section
+        h2 preinitialize data structures
+
+      section
+        img(src="images/build-run.png" style="width: 100%")
+
+      section
+        h2 routing
+
+      section
+        h2 find-my-away
         ul.bullet
-          li JSON.stringify is slow
-          li middlewares are slow
-          li Routing is slow
-          li build-run approach
+          li trie-based router
+          li different API
+          li closure free
+          li extremely optimized
+
+      section
+        pre
+          code.language-javascript.
+            const http = require('http')
+            const router = require('find-my-way')()
+
+            router.on('GET', '/', (req, res, params) => {
+              res.end('{"hello":"world"}')
+            })
+
+            http.createServer((req, res) => {
+              router.lookup(req, res)
+            }).listen(3000)
+
+      section
+        h2 find-my-way
+        img(src="images/find-my-way-bench.png" style="height: 100%")
 
       section
         h2 The problem with JSON.stringify
@@ -177,14 +215,17 @@ html
           li generic code, cannot be type specific
 
       section
-        img(src="images/fast-json-stringify.png" style="height: 100%")
-
-      section
         h2 fast-json-stringify
         ul.bullet
           li schema-based JSON rendering
           li generates code based on the schema
           li new Function(), but it is safe
+
+      section
+        img(src="images/fast-json-stringify.png" style="height: 100%")
+
+      section
+        h2 middlewares
 
       section
         h2 helmet middlewares
