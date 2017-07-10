@@ -140,8 +140,8 @@ html
           | &nbsp;features
         ul.bullet
           li rich plugin system
-          li lifecycle methods
           li middleware support
+          li lifecycle methods
           li decorators
           li validations
 
@@ -185,7 +185,7 @@ html
       section
         h2 find-my-away
         ul.bullet
-          li trie-based router
+          li radix-tree router
           li different API
           li closure free
           li extremely optimized
@@ -244,6 +244,15 @@ html
           img(src="images/flamegraph-fastify-helmet.png" style="width: 90%")
 
       section
+        h2 A tale of two compilers
+
+      section
+        img(src="images/Optimization.png" style="width: 90%")
+
+      section
+        img(src="images/Deoptimization.png" style="width: 90%")
+
+      section
         h2 The problem with closures
 
         pre
@@ -251,6 +260,7 @@ html
             function process (bigdata, cb) {
               remoteCall(bigData, function (err, something) {
                 storeSomething(something, function (err, res) {
+                  // this function is short-lived and hard to optimize
                   // bigdata is still in scope!
                   cb(null, res * 2)
                 })
@@ -275,10 +285,52 @@ html
         pre
           code.language-javascript.
             function callStoreSomething(something, cb) {
+              /* this function can be optimized! */
               storeSomething(something, function (err, res) {
                 cb(null, res * 2)
               })
             }
+
+      section
+        h2 no closure at all!
+        a(href="https://github.com/mcollina/reusify") https://github.com/mcollina/reusify
+        a(href="https://github.com/fastify/middie") https://github.com/fastify/middie
+
+        pre
+          code.language-javascript.
+            function run (req, res) {
+              if (!middlewares.length) complete(null, req, res)
+              else {
+                const holder = pool.get()
+                holder.req = req; holder.res = res
+                holder.url = pathMatch(req.url)
+                holder.done()
+              }
+            }
+
+      section
+        h2 avoiding closures
+        ul.bullet
+          li use top-level function
+          li encapsulate state in Objects
+          li use prototypical inheritance to extend behavior
+          li use reusify when it is not possible
+
+      section
+        h2 validators
+
+      section
+        img(src="./images/validators.png" styles="width: 100%")
+
+      section
+        img(src="./images/validators-errors.png" styles="width: 100%")
+
+      section
+        ul.bullet
+          li ajv is the best choice for speed and correctness
+          li because we use a standard we could switch over time!
+          li 
+            a(href="https://github.com/ebdrup/json-schema-benchmark") https://github.com/ebdrup/json-schema-benchmark
 
       section
         h3 Most code does not need to go
