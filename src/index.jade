@@ -23,13 +23,17 @@ html
 
       section(data-bespoke-backdrop='spaceballs').trans
 
-      section(data-bespoke-backdrop='hole').trans
-        h2(style="color: white; margin-bottom: -50%") Down the rabbit hole of performance optimizations
-
       section
         h3 2015
         a(href="https://www.youtube.com/watch?v=_0W_822Dijg")
           img(src="images/reaching-ludicrous-speed.png" style="width: 90%")
+
+      section
+        h3 2016
+        img(src="./images/pino.png" style="width: 90%")
+        ul.bullet
+          li 🌲 super fast, all natural json logger 🌲
+          li Up to 17x faster than alternatives
 
       section
         h3 2016
@@ -52,17 +56,6 @@ html
 
       section
         h2(style='font-size: 3.125em') 0x + autocannon = 👌
-
-      section
-        h3 2016
-        img(src="./images/pino.png" style="width: 90%")
-        ul.bullet
-          li 🌲 super fast, all natural json logger 🌲
-          li Up to 17x faster than alternatives
-
-      section
-        h3 2017
-        h2 Another Web Framework?
 
       section
         h2 Express
@@ -105,239 +98,21 @@ html
           img(src="images/flamegraph-bare.png" style="width: 90%")
 
       section
-        h2 How to get fast?
-
-      section
-        h2 How node works
-        br
-        img(src="images/event-loop.png" style="height: 80%")
-
-      section
-        h2 How to get fast
-        p
-          b fast
-          | &nbsp;means we can do more I/O
-        ul.bullet
-          li get an I/O event
-          li process the event
-          li release the CPU
-          li
-            b as fast as possible
-
-      section(data-bespoke-backdrop='cheetah').trans
-        h2 Achieving ZERO overhead
-
-      section
-        img(src="images/fastify.png" style="width: 90%")
-
-      section
-        pre
-          code.language-javascript.
-            'use strict'
-            const fastify = require('fastify')()
-
-            fastify.get('/', function (req, reply) {
-              reply.send({ hello: 'world' })
-            }).listen(3000)
-
-      section
-        pre
-          code.language-javascript.
-            'use strict'
-            const fastify = require('fastify')()
-            const opts = { schema: { response: { 200: {
-              type: 'object',
-              properties: {
-                hello: {
-                  type: 'string'
-                }
-              }
-            } } } }
-            fastify.get('/', opts, function (req, reply) {
-              reply.send({ hello: 'world' })
-            }).listen(3000)
-
-      section
-        img(src="images/core-vs-express-vs-fastify.png" style="height: 100%")
-
-      section
-        a(href="flamegraph-fastify-simple.html" target="blank")
-          img(src="images/flamegraph-fastify-simple.png" style="width: 90%")
-
-      section
-        h2
-          em Fastify
-          | &nbsp;features
-        ul.bullet
-          li decorators
-          li lifecycle hooks
-          li rich plugin system
-          li middleware support
-          li validations
-
-      section
-        h2 decorators
-        pre
-          code.language-javascript.
-            fastify.decorateReply('test', 'world')
-
-            fastify.get('/yes', (req, reply) => {
-              reply.send({ hello: reply.test })
-            })
-
-      section
-        h2 Lifecycle hooks
-        pre
-          code.language-javascript.
-            fastify.addHook('onRequest', (req, res, next) => {
-              /* some code */
-              next(new Error('some error'), 400)
-            })
-
-      section
-        h2 plugins
-        ul.bullet
-          li fastify-plugin injects any decorator in the current level
-          li otherwise, only plugins registered at child will have access
-          li hooks follows the same mechanism
-          li
-            a(href="https://github.com/mcollina/avvio") https://github.com/mcollina/avvio
-
-      section
-        pre
-          code.language-javascript.
-            const fastify = require('fastify')()
-            const helmet = require('fastify-helmet')
-
-            fastify.register(helmet)
-
-            fastify.listen(3000)
-
-      section
-        h2 fastify-plugin
-        pre
-          code.language-javascript.
-            const fp = require('fastify-plugin')
-
-            module.exports = fp(function (fastify, opts, next) {
-              next()
-            })
-
-      section
-        h2 without fastify-plugin
-        pre
-          code.language-javascript.
-            module.exports = function (fastify, opts, next) {
-              next()
-            }
-
-      section
-        pre
-          code.language-javascript.
-            fastify.register((instance, opts, next) => {
-              instance.decorateReply('test', 'world')
-              instance.get('/yes', (req, reply) => {
-                reply.send({ hello: reply.test })
-              })
-              next()
-            })
-
-            fastify.get('/no', (req, reply) => {
-              reply.send({ hello: reply.test }) // test is undefined
-            })
-
-      section
-        pre
-          code.language-javascript.
-            const fp = require('fastify-plugin')
-            fastify.register(fp(instance, opts, next) => {
-              instance.decorateReply('test', 'world')
-              instance.get('/yes', (req, reply) => {
-                reply.send({ hello: reply.test })
-              })
-              next()
-            })
-
-            fastify.get('/no', (req, reply) => {
-              reply.send({ hello: reply.test }) // test is 'world'
-            })
-
-      section
-        h2 middlewares
-        h3 are not restricted by plugins
-        pre
-          code.language-javascript.
-            fastify.use(require('cors')())
-
-      section
-        h2 JSON-schema validation
-        pre
-          code.language-javascript.
-            const schema = {
-              body: {
-                type: 'object',
-                properties: {
-                  someKey: { type: 'string' },
-                  someOtherKey: { type: 'number' }
-                }
-              },
-              querystring: { /* ... */ },
-              params: { /* ... */ }
-            }
-
-      section
-        h2 JSON-schema validation
-        pre
-          code.language-javascript.
-            fastify.post('/data', schema, (request, reply) => {
-              /* ... */
-            })
+        h2 Features Table
 
       section(data-bespoke-backdrop='path').trans
         h2(style="color: white") The path to fast
-
-      section
-        div.bullet
-          h3.bullet preinitialize data structures
-          h3.bullet JSON.stringify
-          h3.bullet routing
-          h3.bullet middlewares
-          h3.bullet decorators and hooks
-
-      section
-        h2 preinitialize data structures
 
       section
         img(src="images/build-run.png" style="width: 100%")
 
       section
         h2 routing
+        img(src="images/find-my-way-bench.png" style="height: 90%")
 
       section
-        h2 find-my-way
-        ul.bullet
-          li radix-tree router
-          li different API
-          li closure free
-          li extremely optimized
-
-      section
-        pre
-          code.language-javascript.
-            const http = require('http')
-            const router = require('find-my-way')()
-
-            router.on('GET', '/', (req, res, params) => {
-              res.end('{"hello":"world"}')
-            })
-
-            http.createServer((req, res) => {
-              router.lookup(req, res)
-            }).listen(3000)
-
-      section
-        h2 find-my-way
-        img(src="images/find-my-way-bench.png" style="height: 100%")
+        h2 Serialization
+        img(src="images/fast-json-stringify.png" style="height: 90%")
 
       section
         h2 The problem with JSON.stringify
@@ -353,13 +128,13 @@ html
           li new Function(), but it is safe
 
       section
-        img(src="images/fast-json-stringify.png" style="height: 100%")
+        h2 middleware
+        h3
+          em fastify
+          | &nbsp;consumes express middlewares!
 
       section
-        h2 middlewares
-
-      section
-        h2 helmet middlewares
+        h2 helmet comparison
         img(src="images/middleware-express-vs-fastify.png" style="height: 100%")
 
       section
@@ -367,21 +142,8 @@ html
           img(src="images/flamegraph-express-helmet.png" style="width: 90%")
 
       section
-        // https://github.com/expressjs/express/blob/9722202df964bfbfc0f579e4baeb5a4e1b43b344/lib/router/route.js#L98
-        img(src="images/express-closure-stack.png" style="height: 90%")
-
-      section
         a(href="flamegraph-fastify-helmet.html" target="blank")
           img(src="images/flamegraph-fastify-helmet.png" style="width: 90%")
-
-      section
-        h2 A tale of two compilers
-
-      section
-        img(src="images/Optimization.png" style="width: 90%")
-
-      section
-        img(src="images/Deoptimization.png" style="width: 90%")
 
       section
         h2 The problem with closures
@@ -423,59 +185,31 @@ html
             }
 
       section
+        p
+          insert slide that visualizes the speed difference between
+          using closures and not closures
+
+      section
         h2 no closure at all!
-        a(href="https://github.com/mcollina/reusify") https://github.com/mcollina/reusify
-        a(href="https://github.com/fastify/middie") https://github.com/fastify/middie
-
-        pre
-          code.language-javascript.
-            function run (req, res) {
-              if (!middlewares.length) complete(null, req, res)
-              else {
-                const holder = pool.get()
-                holder.req = req; holder.res = res
-                holder.url = pathMatch(req.url)
-                holder.done()
-              }
-            }
-
-      section
-        h2 avoiding closures
         ul.bullet
-          li use top-level function
-          li encapsulate state in Objects
-          li use prototypical inheritance to extend behavior
-          li use reusify when it is not possible
-
-      section
-        h2 validators
-
-      section
-        img(src="./images/validators.png" styles="width: 100%")
-
-      section
-        img(src="./images/validators-errors.png" styles="width: 100%")
-
-      section
-        ul.bullet
-          li ajv is the best choice for speed and correctness
-          li because we use a standard we could switch over time!
           li
-            a(href="https://github.com/ebdrup/json-schema-benchmark") https://github.com/ebdrup/json-schema-benchmark
+            a(href="https://github.com/mcollina/reusify") https://github.com/mcollina/reusify
+          li
+            a(href="https://github.com/fastify/middie") https://github.com/fastify/middie
 
       section
-        h2 decorators
-        ul.bullet
-          li decorate the server, the request and reply
-          li implemented using prototypical inheritance
-          li no extra cost at runtime
+        // TODO add arrow to ajv
+        h2 validation speed
+        img(src="./images/validators.png" style="height: 50%")
+        br
+        a(href="https://github.com/ebdrup/json-schema-benchmark") https://github.com/ebdrup/json-schema-benchmark
 
       section
-        h2 lifecycle hooks
-        ul.bullet
-          li attached to the server, the request and reply
-          li implemented using prototypical inheritance
-          li no extra cost at runtime
+        // TODO add arrow to ajv
+        h2 validation correctness
+        img(src="./images/validators-errors.png" style="height: 60%")
+        br
+        a(href="https://github.com/ebdrup/json-schema-benchmark") https://github.com/ebdrup/json-schema-benchmark
 
       section
         img(src="images/fastify.png" style="width: 90%")
