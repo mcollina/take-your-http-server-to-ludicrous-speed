@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "dependencies": {
     "bespoke-pdf": "^1.1.3",
-    "bespoke-run": "^1.0.1"
+    "bespoke-run": "^1.0.1",
+    "isarray": "^2.0.1"
   },
   "devDependencies": {
     "async": "^1.5.0",

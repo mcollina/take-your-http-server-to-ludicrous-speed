@@ -23,6 +23,9 @@ html
 
       section(data-bespoke-backdrop='spaceballs').trans
 
+      section(data-bespoke-backdrop='hole').trans
+        h2(style="color: white; margin-bottom: -50%") Down the rabbit hole of performance optimizations
+
       section
         h3 2015
         a(href="https://www.youtube.com/watch?v=_0W_822Dijg")
@@ -62,20 +65,6 @@ html
         h2 Another Web Framework?
 
       section
-        h2 Node Core
-        pre
-          code.language-javascript.
-            'use strict'
-
-            var server = require('http').createServer(handle)
-
-            server.listen(3000)
-
-            function handle (req, res) {
-              res.end(JSON.stringify({ hello: 'world' }))
-            }
-
-      section
         h2 Express
         pre
           code.language-javascript.
@@ -91,24 +80,65 @@ html
             app.listen(3000)
 
       section
+        h2 Node Core
+        pre
+          code.language-javascript.
+            'use strict'
+
+            var server = require('http').createServer(handle)
+
+            server.listen(3000)
+
+            function handle (req, res) {
+              res.end(JSON.stringify({ hello: 'world' }))
+            }
+
+      section
         img(src="images/core-vs-express.png" style="height: 100%")
+
+      section
+        a(href="flamegraph-express.html" target="blank")
+          img(src="images/flamegraph-express.png" style="width: 90%")
 
       section
         a(href="flamegraph-core.html" target="blank")
           img(src="images/flamegraph-bare.png" style="width: 90%")
 
       section
-        a(href="flamegraph-express.html" target="blank")
-          img(src="images/flamegraph-express.png" style="width: 90%")
+        h2 How to get fast?
+
+      section
+        h2 How node works
+        br
+        img(src="images/event-loop.png" style="height: 80%")
+
+      section
+        h2 How to get fast
+        p
+          b fast
+          | &nbsp;means we can do more I/O
+        ul.bullet
+          li get an I/O event
+          li process the event
+          li release the CPU
+          li
+            b as fast as possible
 
       section(data-bespoke-backdrop='cheetah').trans
         h2 Achieving ZERO overhead
 
-      section(data-bespoke-backdrop='hole').trans
-        h2(style="color: white; margin-bottom: -50%") Down the rabbit hole of performance optimizations
-
       section
         img(src="images/fastify.png" style="width: 90%")
+
+      section
+        pre
+          code.language-javascript.
+            'use strict'
+            const fastify = require('fastify')()
+
+            fastify.get('/', function (req, reply) {
+              reply.send({ hello: 'world' })
+            }).listen(3000)
 
       section
         pre
@@ -139,28 +169,129 @@ html
           em Fastify
           | &nbsp;features
         ul.bullet
+          li decorators
+          li lifecycle hooks
           li rich plugin system
           li middleware support
-          li lifecycle methods
-          li decorators
           li validations
 
       section
-        h2 How node works
-        br
-        img(src="images/event-loop.png" style="height: 80%")
+        h2 decorators
+        pre
+          code.language-javascript.
+            fastify.decorateReply('test', 'world')
+
+            fastify.get('/yes', (req, reply) => {
+              reply.send({ hello: reply.test })
+            })
 
       section
-        h2 How to get fast
-        p
-          b fast
-          | &nbsp;means we can do more I/O
+        h2 Lifecycle hooks
+        pre
+          code.language-javascript.
+            fastify.addHook('onRequest', (req, res, next) => {
+              /* some code */
+              next(new Error('some error'), 400)
+            })
+
+      section
+        h2 plugins
         ul.bullet
-          li get an I/O event
-          li process the event
-          li release the CPU
+          li fastify-plugin injects any decorator in the current level
+          li otherwise, only plugins registered at child will have access
+          li hooks follows the same mechanism
           li
-            b as fast as possible
+            a(href="https://github.com/mcollina/avvio") https://github.com/mcollina/avvio
+
+      section
+        pre
+          code.language-javascript.
+            const fastify = require('fastify')()
+            const helmet = require('fastify-helmet')
+
+            fastify.register(helmet)
+
+            fastify.listen(3000)
+
+      section
+        h2 fastify-plugin
+        pre
+          code.language-javascript.
+            const fp = require('fastify-plugin')
+
+            module.exports = fp(function (fastify, opts, next) {
+              next()
+            })
+
+      section
+        h2 without fastify-plugin
+        pre
+          code.language-javascript.
+            module.exports = function (fastify, opts, next) {
+              next()
+            }
+
+      section
+        pre
+          code.language-javascript.
+            fastify.register((instance, opts, next) => {
+              instance.decorateReply('test', 'world')
+              instance.get('/yes', (req, reply) => {
+                reply.send({ hello: reply.test })
+              })
+              next()
+            })
+
+            fastify.get('/no', (req, reply) => {
+              reply.send({ hello: reply.test }) // test is undefined
+            })
+
+      section
+        pre
+          code.language-javascript.
+            const fp = require('fastify-plugin')
+            fastify.register(fp(instance, opts, next) => {
+              instance.decorateReply('test', 'world')
+              instance.get('/yes', (req, reply) => {
+                reply.send({ hello: reply.test })
+              })
+              next()
+            })
+
+            fastify.get('/no', (req, reply) => {
+              reply.send({ hello: reply.test }) // test is 'world'
+            })
+
+      section
+        h2 middlewares
+        h3 are not restricted by plugins
+        pre
+          code.language-javascript.
+            fastify.use(require('cors')())
+
+      section
+        h2 JSON-schema validation
+        pre
+          code.language-javascript.
+            const schema = {
+              body: {
+                type: 'object',
+                properties: {
+                  someKey: { type: 'string' },
+                  someOtherKey: { type: 'number' }
+                }
+              },
+              querystring: { /* ... */ },
+              params: { /* ... */ }
+            }
+
+      section
+        h2 JSON-schema validation
+        pre
+          code.language-javascript.
+            fastify.post('/data', schema, (request, reply) => {
+              /* ... */
+            })
 
       section(data-bespoke-backdrop='path').trans
         h2(style="color: white") The path to fast
@@ -171,7 +302,7 @@ html
           h3.bullet JSON.stringify
           h3.bullet routing
           h3.bullet middlewares
-          h3.bullet decorators
+          h3.bullet decorators and hooks
 
       section
         h2 preinitialize data structures
@@ -183,7 +314,7 @@ html
         h2 routing
 
       section
-        h2 find-my-away
+        h2 find-my-way
         ul.bullet
           li radix-tree router
           li different API
@@ -258,7 +389,7 @@ html
         pre
           code.language-javascript.
             function process (bigdata, cb) {
-              remoteCall(bigData, function (err, something) {
+              remoteCall(bigdata, function (err, something) {
                 storeSomething(something, function (err, res) {
                   // this function is short-lived and hard to optimize
                   // bigdata is still in scope!
@@ -273,7 +404,7 @@ html
         pre
           code.language-javascript.
             function process (bigdata, cb) {
-              remoteCall(bigData, function (err, something) {
+              remoteCall(bigdata, function (err, something) {
                 // bigdata exits scope here
                 callStoreSomething(something, cb)
               })
@@ -329,8 +460,25 @@ html
         ul.bullet
           li ajv is the best choice for speed and correctness
           li because we use a standard we could switch over time!
-          li 
+          li
             a(href="https://github.com/ebdrup/json-schema-benchmark") https://github.com/ebdrup/json-schema-benchmark
+
+      section
+        h2 decorators
+        ul.bullet
+          li decorate the server, the request and reply
+          li implemented using prototypical inheritance
+          li no extra cost at runtime
+
+      section
+        h2 lifecycle hooks
+        ul.bullet
+          li attached to the server, the request and reply
+          li implemented using prototypical inheritance
+          li no extra cost at runtime
+
+      section
+        img(src="images/fastify.png" style="width: 90%")
 
       section
         h3 Most code does not need to go
@@ -356,7 +504,7 @@ html
         a(href="http://nearform.com" style="width: 20%")
           img(src="./images/nearform.svg")
         br
-        p If you need help with Node.js
+        p We are hiring JavaScript developers
         br
         h3 <a href="mailto:matteo.collina@nearform.com">matteo.collina@nearform.com</a>
         h3 <a href="http://twitter.com/matteocollina">@matteocollina</a> on Twitter
