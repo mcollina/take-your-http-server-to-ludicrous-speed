@@ -98,7 +98,49 @@ html
           img(src="images/flamegraph-bare.png" style="width: 90%")
 
       section
-        h2 Features Table
+        h2 Features Comparison
+        table
+          tr
+            th.left Feature
+            th Express
+            th Hapi
+            th
+              em Fastify
+          tr
+            td.left router
+            td.green &#10004;
+            td.green &#10004;
+            td.green &#10004;
+          tr
+            td.left middleware
+            td.green &#10004;
+            td.red &#10060;
+            td.green &#10004;
+          tr
+            td.left plugins
+            td.red &#10060;
+            td.green &#10004;
+            td.green &#10004;
+          tr
+            td.left validation
+            td.red &#10060;
+            td.green &#10004;
+            td.green &#10004;
+          tr
+            td.left hooks
+            td.red &#10060;
+            td.green &#10004;
+            td.green &#10004;
+          tr
+            td.left decorators
+            td.red &#10060;
+            td.green &#10004;
+            td.green &#10004;
+          tr
+            td.left req/sec
+            td.red 8534
+            td.red 2200
+            td.green 21287
 
       section(data-bespoke-backdrop='path').trans
         h2(style="color: white") The path to fast
@@ -185,12 +227,9 @@ html
             }
 
       section
-        p
-          insert slide that visualizes the speed difference between
-          using closures and not closures
-
-      section
-        h2 no closure at all!
+        h2 
+          em Fastify
+          | :&nbsp;no closures at all!
         ul.bullet
           li
             a(href="https://github.com/mcollina/reusify") https://github.com/mcollina/reusify
