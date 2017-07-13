@@ -1,0 +1,18 @@
+{
+  "name": "fastify-demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Matteo Collina <hello@matteocollina.com>",
+  "license": "MIT",
+  "dependencies": {
+    "fastify": "^0.24.0",
+    "fastify-helmet": "^1.0.0",
+    "fastify-mongodb": "^0.1.0",
+    "marko": "^4.4.18",
+    "point-of-view": "^0.2.1"
+  }
+}
