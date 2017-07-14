@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Take your HTTP server to Ludicrous Speed</title>
+    <link rel="stylesheet" type="text/css" href="build/build.css">
+  </head>
+  <body>
+    <article>
+      <section>
+        <h1>Take your HTTP server to</h1><img src="./images/ludicrous.gif"><br>
+        <h3>by&nbsp;<a href="http://twitter.com/matteocollina">@matteocollina</a></h3>
+        <p class="copyright">
+          Ludicrous speed is from Spaceballs
+          
+        </p>
+      </section>
+      <section data-bespoke-backdrop="spaceballs" class="trans"></section>
+      <section>
+        <h3>2015</h3><a href="https://www.youtube.com/watch?v=_0W_822Dijg"><img src="images/reaching-ludicrous-speed.png" style="width: 90%"></a>
+      </section>
+      <section>
+        <h3>2016</h3><img src="./images/pino.png" style="width: 90%">
+        <ul class="bullet">
+          <li>🌲 super fast, all natural json logger 🌲</li>
+          <li>Up to 17x faster than alternatives</li>
+        </ul>
+      </section>
+      <section>
+        <h3>2016</h3>
+        <h2>Tools</h2>
+        <ul class="bullet">
+          <li><a href="http://npm.im/autocannon">autocannon</a></li>
+          <li><a href="http://npm.im/0x">0x</a></li>
+        </ul>
+      </section>
+      <section><img src="images/autocannon.png" style="width:100%;margin-bottom:5%;margin-top:-5%">
+        <h3>HTTP load tester</h3>
+        <h3>Trival cross platform installation</h3>
+        <h3>Generates the same load as alternatives in C</h3>
+      </section>
+      <section><img src="images/0x.png" style="height:15%;margin-bottom:5%;margin-top:-5%"><img src="images/0x-demo.gif" style="height:85%"></section>
+      <section>
+        <h2 style="font-size: 3.125em">0x + autocannon = 👌</h2>
+      </section>
+      <section>
+        <h2>Express</h2>
+        <pre><code class="language-javascript">'use strict'
+
+var express = require('express')
+var app = express()
+
+app.get('/', function (req, res) {
+  res.send({ hello: 'world' })
+})
+
+app.listen(3000)
+</code></pre>
+      </section>
+      <section>
+        <h2>Node Core</h2>
+        <pre><code class="language-javascript">'use strict'
+
+var server = require('http').createServer(handle)
+
+server.listen(3000)
+
+function handle (req, res) {
+  res.end(JSON.stringify({ hello: 'world' }))
+}
+</code></pre>
+      </section>
+      <section><img src="images/core-vs-express.png" style="height: 100%"></section>
+      <section><a href="flamegraph-express.html" target="blank"><img src="images/flamegraph-express.png" style="width: 90%"></a></section>
+      <section><a href="flamegraph-core.html" target="blank"><img src="images/flamegraph-bare.png" style="width: 90%"></a></section>
+      <section><img src="images/fastify.png" style="width: 90%"><br>
+        <h3><a href="https://github.com/fastify/fastify">https://github.com/fastify/fastify</a></h3>
+      </section>
+      <section>
+        <h2>Features Comparison</h2>
+        <table>
+          <tr>
+            <th class="left">Feature</th>
+            <th>Express</th>
+            <th>Hapi</th>
+            <th><em>Fastify</em></th>
+          </tr>
+          <tr>
+            <td class="left">router</td>
+            <td class="green">&#10004;</td>
+            <td class="green">&#10004;</td>
+            <td class="green">&#10004;</td>
+          </tr>
+          <tr>
+            <td class="left">middleware</td>
+            <td class="green">&#10004;</td>
+            <td class="red">&#10060;</td>
+            <td class="green">&#10004;</td>
+          </tr>
+          <tr>
+            <td class="left">plugins</td>
+            <td class="red">&#10060;</td>
+            <td class="green">&#10004;</td>
+            <td class="green">&#10004;</td>
+          </tr>
+          <tr>
+            <td class="left">validation</td>
+            <td class="red">&#10060;</td>
+            <td class="green">&#10004;</td>
+            <td class="green">&#10004;</td>
+          </tr>
+          <tr>
+            <td class="left">hooks</td>
+            <td class="red">&#10060;</td>
+            <td class="green">&#10004;</td>
+            <td class="green">&#10004;</td>
+          </tr>
+          <tr>
+            <td class="left">decorators</td>
+            <td class="red">&#10060;</td>
+            <td class="green">&#10004;</td>
+            <td class="green">&#10004;</td>
+          </tr>
+          <tr>
+            <td class="left">logging</td>
+            <td class="red">&#10060;</td>
+            <td class="red">&#10060;</td>
+            <td class="green">&#10004;</td>
+          </tr>
+          <tr>
+            <td class="left">async/await</td>
+            <td class="red">&#10060;</td>
+            <td class="green">&#10004;</td>
+            <td class="green">&#10004;</td>
+          </tr>
+          <tr>
+            <td class="left">req/sec</td>
+            <td class="red">8534</td>
+            <td class="red">2200</td>
+            <td class="green">21287</td>
+          </tr>
+        </table>
+      </section>
+      <section data-bespoke-backdrop="path" class="trans">
+        <h2 style="color: white">The path to fast</h2>
+      </section>
+      <section><img src="images/build-run.png" style="width: 100%"></section>
+      <section>
+        <h2>routing</h2><img src="images/find-my-way-bench.png" style="height: 90%"><a href="https://github.com/delvedor/router-benchmark">https://github.com/delvedor/router-benchmark</a>
+      </section>
+      <section>
+        <h2>Serialization</h2><img src="images/fast-json-stringify.png" style="height: 90%">
+      </section>
+      <section>
+        <h2>The problem with JSON.stringify</h2>
+        <ul class="bullet">
+          <li>recursive function, it cannot be optimized by V8</li>
+          <li>generic code, cannot be type specific</li>
+        </ul>
+      </section>
+      <section>
+        <h2>fast-json-stringify</h2>
+        <ul class="bullet">
+          <li>schema-based JSON rendering</li>
+          <li>generates code based on the schema</li>
+          <li>new Function(), but it is safe</li>
+        </ul>
+      </section>
+      <section>
+        <h2>middleware</h2>
+        <h3><em>fastify</em>&nbsp;consumes express middlewares!</h3>
+      </section>
+      <section>
+        <h2>helmet comparison</h2><img src="images/middleware-express-vs-fastify.png" style="height: 100%">
+      </section>
+      <section><a href="flamegraph-express-helmet.html" target="blank"><img src="images/flamegraph-express-helmet.png" style="width: 90%"></a></section>
+      <section><a href="flamegraph-fastify-helmet.html" target="blank"><img src="images/flamegraph-fastify-helmet.png" style="width: 90%"></a></section>
+      <section>
+        <h2>The problem with closures</h2>
+        <pre><code class="language-javascript">function process (bigdata, cb) {
+  remoteCall(bigdata, function (err, something) {
+    storeSomething(something, function (err, res) {
+      // this function is short-lived and hard to optimize
+      // bigdata is still in scope!
+      cb(null, res * 2)
+    })
+  })
+}
+</code></pre>
+      </section>
+      <section>
+        <h2>Avoid nested closures 1/2</h2>
+        <pre><code class="language-javascript">function process (bigdata, cb) {
+  remoteCall(bigdata, function (err, something) {
+    // bigdata exits scope here
+    callStoreSomething(something, cb)
+  })
+}
+</code></pre>
+      </section>
+      <section>
+        <h2>Avoid nested closures 2/2</h2>
+        <pre><code class="language-javascript">function callStoreSomething(something, cb) {
+  /* this function can be optimized! */
+  storeSomething(something, function (err, res) {
+    cb(null, res * 2)
+  })
+}
+</code></pre>
+      </section>
+      <section>
+        <h2><em>Fastify</em>:&nbsp;no closures at all!</h2>
+        <ul class="bullet">
+          <li><a href="https://github.com/mcollina/reusify">https://github.com/mcollina/reusify</a></li>
+          <li><a href="https://github.com/fastify/middie">https://github.com/fastify/middie</a></li>
+        </ul>
+      </section>
+      <section>
+        <!-- TODO add arrow to ajv-->
+        <h2>validation speed</h2><img src="./images/validators.png" style="height: 50%"><br><a href="https://github.com/ebdrup/json-schema-benchmark">https://github.com/ebdrup/json-schema-benchmark</a>
+      </section>
+      <section>
+        <!-- TODO add arrow to ajv-->
+        <h2>validation correctness</h2><img src="./images/validators-errors.png" style="height: 60%"><br><a href="https://github.com/ebdrup/json-schema-benchmark">https://github.com/ebdrup/json-schema-benchmark</a>
+      </section>
+      <section><img src="images/fastify.png" style="width: 90%"><br>
+        <h3><a href="https://github.com/fastify/fastify">https://github.com/fastify/fastify</a></h3>
+      </section>
+      <section>
+        <h3>Most code does not need to go</h3><img src="./images/ludicrous.gif">
+      </section>
+      <section>
+        <h2>This presentation</h2>
+        <ul class="bullet">
+          <li><a href="https://mcollina.github.io/take-your-http-server-to-ludicrous-speed">https://mcollina.github.io/take-your-http-server-to-ludicrous-speed</a></li>
+          <li><a href="https://github.com/mcollina/take-your-http-server-to-ludicrous-speed">
+              https://github.com/mcollina/take-your-http-server-to-ludicrous-speed
+              </a></li>
+        </ul>
+      </section>
+      <section class="full-imgs"><img src="images/me.png">
+        <h3><a href="http://github.com/mcollina">http://github.com/mcollina</a></h3>
+      </section>
+      <section>
+        <h1>Thanks!</h1><a href="http://nearform.com" style="width: 20%"><img src="./images/nearform.svg"></a><br>
+        <p>We are hiring JavaScript developers</p><br>
+        <h3><a href="mailto:matteo.collina@nearform.com">matteo.collina@nearform.com</a></h3>
+        <h3><a href="http://twitter.com/matteocollina">@matteocollina</a> on Twitter</h3>
+        <h3><a href="http://www.nearform.com">www.nearform.com</a></h3>
+      </section>
+    </article>
+    <script src="build/build.js"></script>
+  </body>
+</html>
