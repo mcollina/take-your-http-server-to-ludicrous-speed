@@ -104,6 +104,34 @@ html
           a(href="https://github.com/fastify/fastify") https://github.com/fastify/fastify
 
       section
+        pre
+          code.language-javascript.
+            'use strict'
+            const fastify = require('fastify')()
+
+            fastify.get('/', function (req, reply) {
+              reply.send({ hello: 'world' })
+            })
+
+            fastify.listen(3000)
+
+      section
+        pre
+          code.language-javascript.
+            fastify.get('/', {
+              schema: {
+                response: {
+                  200: {
+                    type: 'object',
+                    properties: { hello: { type: 'string' } }
+                  }
+                }
+              }
+            }, (req, reply) => {
+              reply.send({ hello: 'world' })
+            })
+
+      section
         img(src="images/bare-fastify.png" style="height: 100%")
 
       section
@@ -152,7 +180,7 @@ html
           tr
             td.left logging
             td.red &#10060;
-            td.red &#10060;
+            td.green &#10004;
             td.green &#10004;
           tr
             td.left async/await
