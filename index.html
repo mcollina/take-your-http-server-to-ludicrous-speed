@@ -223,14 +223,14 @@ fastify.listen(3000)
         <h2>routing</h2><img src="images/find-my-way-bench.png" style="height: 90%"><a href="https://github.com/delvedor/router-benchmark">https://github.com/delvedor/router-benchmark</a>
       </section>
       <section>
-        <h2>Serialization</h2><img src="images/fast-json-stringify.png" style="height: 90%">
-      </section>
-      <section>
         <h2>The problem with JSON.stringify</h2>
         <ul class="bullet">
           <li>recursive function, it cannot be optimized by V8</li>
           <li>generic code, cannot be type specific</li>
         </ul>
+      </section>
+      <section>
+        <h2>Serialization</h2><img src="images/fast-json-stringify.png" style="height: 90%">
       </section>
       <section>
         <h2>fast-json-stringify</h2>
@@ -242,7 +242,7 @@ fastify.listen(3000)
       </section>
       <section>
         <h2>middleware</h2>
-        <h3><em>fastify</em>&nbsp;consumes express middlewares!</h3>
+        <h3><em>fastify</em>&nbsp;consumes express/connect middlewares!</h3>
         <ul class="bullet">
           <li><a href="https://github.com/fastify/middie">https://github.com/fastify/middie</a></li>
         </ul>
@@ -266,6 +266,9 @@ fastify.listen(3000)
       <section>
         <h3>Most code does not need to go</h3><img src="./images/ludicrous.gif">
       </section>
+      <section><a href="https://www.nearform.com/blog/node-js-is-getting-a-new-v8-with-turbofan/"><img src="images/turbofan-post.png" style="width: 90%"></a>
+        <p style="font-size: 0.6em;"><a href="https://www.nearform.com/blog/node-js-is-getting-a-new-v8-with-turbofan/">https://www.nearform.com/blog/node-js-is-getting-a-new-v8-with-turbofan/</a></p>
+      </section>
       <section>
         <h2>This presentation</h2>
         <ul class="bullet">
@@ -280,7 +283,7 @@ fastify.listen(3000)
       </section>
       <section>
         <h1>Thanks!</h1><a href="http://nearform.com" style="width: 20%"><img src="./images/nearform.svg"></a><br>
-        <p>We are hiring JavaScript developers</p><br>
+        <p>If you need help with Node.js, contact us</p><br>
         <h3><a href="mailto:matteo.collina@nearform.com">matteo.collina@nearform.com</a></h3>
         <h3><a href="http://twitter.com/matteocollina">@matteocollina</a> on Twitter</h3>
         <h3><a href="http://www.nearform.com">www.nearform.com</a></h3>
