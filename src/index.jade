@@ -258,16 +258,15 @@ html
         img(src="images/find-my-way-bench.png" style="height: 90%")
         a(href="https://github.com/delvedor/router-benchmark") https://github.com/delvedor/router-benchmark
 
-
-      section
-        h2 Serialization
-        img(src="images/fast-json-stringify.png" style="height: 90%")
-
       section
         h2 The problem with JSON.stringify
         ul.bullet
           li recursive function, it cannot be optimized by V8
           li generic code, cannot be type specific
+
+      section
+        h2 Serialization
+        img(src="images/fast-json-stringify.png" style="height: 90%")
 
       section
         h2 fast-json-stringify
@@ -280,7 +279,7 @@ html
         h2 middleware
         h3
           em fastify
-          | &nbsp;consumes express middlewares!
+          | &nbsp;consumes express/connect middlewares!
 
         ul.bullet
           li
@@ -323,6 +322,12 @@ html
         img(src="./images/ludicrous.gif")
 
       section
+        a(href="https://www.nearform.com/blog/node-js-is-getting-a-new-v8-with-turbofan/")
+          img(src="images/turbofan-post.png", style="width: 90%")
+        p(style="font-size: 0.6em;")
+          a(href="https://www.nearform.com/blog/node-js-is-getting-a-new-v8-with-turbofan/") https://www.nearform.com/blog/node-js-is-getting-a-new-v8-with-turbofan/
+
+      section
         h2 This presentation
         ul.bullet
           li
@@ -342,7 +347,7 @@ html
         a(href="http://nearform.com" style="width: 20%")
           img(src="./images/nearform.svg")
         br
-        p We are hiring JavaScript developers
+        p If you need help with Node.js, contact us
         br
         h3 <a href="mailto:matteo.collina@nearform.com">matteo.collina@nearform.com</a>
         h3 <a href="http://twitter.com/matteocollina">@matteocollina</a> on Twitter
