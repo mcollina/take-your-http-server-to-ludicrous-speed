@@ -24,40 +24,6 @@ html
       section(data-bespoke-backdrop='spaceballs').trans
 
       section
-        h3 2015
-        a(href="https://www.youtube.com/watch?v=_0W_822Dijg")
-          img(src="images/reaching-ludicrous-speed.png" style="width: 90%")
-
-      section
-        h3 2016
-        img(src="./images/pino.png" style="width: 90%")
-        ul.bullet
-          li 🌲 super fast, all natural json logger 🌲
-          li Up to 17x faster than alternatives
-
-      section
-        h3 2016
-        h2 Tools
-        ul.bullet
-          li
-            a(href="http://npm.im/autocannon") autocannon
-          li
-            a(href="http://npm.im/0x") 0x
-
-      section
-        img(src='images/autocannon.png', style='width:100%;margin-bottom:5%;margin-top:-5%')
-        h3 HTTP load tester
-        h3 Trival cross platform installation
-        h3 Generates the same load as alternatives in C
-
-      section
-        img(src='images/0x.png', style='height:15%;margin-bottom:5%;margin-top:-5%')
-        img(src='images/0x-demo.gif', style='height:85%')
-
-      section
-        h2(style='font-size: 3.125em') 0x + autocannon = 👌
-
-      section
         h2 Express
         pre
           code.language-javascript.
@@ -65,9 +31,11 @@ html
 
             var express = require('express')
             var app = express()
+            app.disable('etag')
+            app.disable('x-powered-by')
 
             app.get('/', function (req, res) {
-              res.send({ hello: 'world' })
+              res.json({ hello: 'world' })
             })
 
             app.listen(3000)
@@ -83,11 +51,16 @@ html
             server.listen(3000)
 
             function handle (req, res) {
+              res.setHeader('Content-Type', 'application/json')
               res.end(JSON.stringify({ hello: 'world' }))
             }
 
       section
         img(src="images/core-vs-express.png" style="height: 100%")
+
+      section
+        img(src='images/0x.png', style='height:15%;margin-bottom:5%;margin-top:-5%')
+        img(src='images/0x-demo.gif', style='height:85%')
 
       section
         a(href="flamegraph-express.html" target="blank")
@@ -96,6 +69,94 @@ html
       section
         a(href="flamegraph-core.html" target="blank")
           img(src="images/flamegraph-bare.png" style="width: 90%")
+
+      section(data-bespoke-backdrop='path').trans
+        h2(style="color: white") The path to fast
+
+      section
+        ol
+          li
+            h3 Start from scratch
+          li
+            h3 Add a feature
+          li
+            h3 Measure
+          li
+            h3 Optimize until it has no overhead
+          li
+            h3 GOTO 2
+
+      section
+        // TODO this might need an image as a background
+        h2 Can we speed up Core?
+
+      section
+        h2 The problem with JSON.stringify
+        ul.bullet
+          li recursive function, it cannot be optimized by V8
+          li generic code, cannot be type specific
+
+      section
+        h2 Serialization
+        img(src="images/fast-json-stringify.png" style="height: 90%")
+
+      section
+        h2 fast-json-stringify
+        ul.bullet
+          li schema-based JSON rendering
+          li generates code based on the schema
+          li new Function(), but it is safe
+
+      section
+        pre
+          code.language-javascript.
+            require('http').createServer(handle).listen(3000)
+
+            var stringify = require('fast-json-stringify')({
+              type: 'object',
+              properties: { hello: { type: 'string' } }
+            })
+
+            function handle (req, res) {
+              res.setHeader('Content-Type', 'application/json')
+              res.end(stringify({ hello: 'world' }))
+            }
+
+      section
+        h2 An histogram goes here
+
+      section
+        h2 Adding an HTTP router
+        ul.bullet
+          li
+            a(href="https://github.com/delvedor/find-my-way") https://github.com/delvedor/find-my-way
+          li avoid closure allocation
+          li built on a radix-tree
+          li safe
+
+      section
+        h2 routing
+        img(src="images/find-my-way-bench.png" style="height: 90%")
+        a(href="https://github.com/delvedor/router-benchmark") https://github.com/delvedor/router-benchmark
+
+      section
+        pre
+          code.language-javascript.
+            const router = require('find-my-way')()
+            require('http').createServer(router.lookup.bind(router)).listen(3000)
+
+            var stringify = require('fast-json-stringify')({
+              type: 'object',
+              properties: { hello: { type: 'string' } }
+            })
+
+            router.on('GET', '/', function root (req, res, params) {
+              res.setHeader('Content-Type', 'application/json')
+              res.end(stringify({ hello: 'world' }))
+            }
+
+      section
+        h2 An histogram goes here
 
       section
         img(src="images/fastify.png" style="width: 90%")
@@ -189,15 +250,16 @@ html
             td.green &#10004;
           tr
             td.left req/sec
-            td.red 8534
-            td.red 2200
-            td.green 21287
-
-      section(data-bespoke-backdrop='path').trans
-        h2(style="color: white") The path to fast
+            td.red 18740
+            td.red 4226
+            td.green 29340
 
       section
         img(src="images/build-run.png" style="width: 100%")
+
+      section
+        a(href="https://www.youtube.com/watch?v=_0W_822Dijg")
+          img(src="images/reaching-ludicrous-speed.png" style="width: 90%")
 
       section
         h2 The problem with closures
@@ -243,37 +305,6 @@ html
           em Fastify
           | :&nbsp;no closures at all!
         a.bullet(href="https://github.com/mcollina/reusify") https://github.com/mcollina/reusify
-
-      section
-        h2 routing
-        ul.bullet
-          li
-            a(href="https://github.com/delvedor/find-my-way") https://github.com/delvedor/find-my-way
-          li avoid closure allocation
-          li built on a radix-tree
-          li safe
-
-      section
-        h2 routing
-        img(src="images/find-my-way-bench.png" style="height: 90%")
-        a(href="https://github.com/delvedor/router-benchmark") https://github.com/delvedor/router-benchmark
-
-      section
-        h2 The problem with JSON.stringify
-        ul.bullet
-          li recursive function, it cannot be optimized by V8
-          li generic code, cannot be type specific
-
-      section
-        h2 Serialization
-        img(src="images/fast-json-stringify.png" style="height: 90%")
-
-      section
-        h2 fast-json-stringify
-        ul.bullet
-          li schema-based JSON rendering
-          li generates code based on the schema
-          li new Function(), but it is safe
 
       section
         h2 middleware
