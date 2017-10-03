@@ -8,7 +8,11 @@ module.exports = function (server, opts, cb) {
   })
 
   server.get('/hello', (req, reply) => {
-    reply.view('/page.marko', { hello: 'world' })
+    reply.view('/page.marko', { hello: 'subsystem' })
+  })
+
+  server.get('/', (req, reply) => {
+    reply.send({ hello: 'from the subsystem' })
   })
 
   cb()

@@ -24,21 +24,13 @@ html
       section(data-bespoke-backdrop='spaceballs').trans
 
       section
-        h2 Express
-        pre
-          code.language-javascript.
-            'use strict'
+        img(src='images/0x.png', style='height:80%;')
 
-            var express = require('express')
-            var app = express()
-            app.disable('etag')
-            app.disable('x-powered-by')
+      section
+        img(src='images/autocannon.png', style='width:100%;')
 
-            app.get('/', function (req, res) {
-              res.json({ hello: 'world' })
-            })
-
-            app.listen(3000)
+      section
+        video(src="images/demo.mp4" preload="auto" style="height: 100%" controls)
 
       section
         h2 Node Core
@@ -56,19 +48,31 @@ html
             }
 
       section
+        h2 Express
+        pre
+          code.language-javascript.
+            'use strict'
+
+            var express = require('express')
+            var app = express()
+            app.disable('etag').disable('x-powered-by')
+
+            app.get('/', function (req, res) {
+              res.json({ hello: 'world' })
+            })
+
+            app.listen(3000)
+
+      section
         img(src="images/core-vs-express.png" style="height: 100%")
-
-      section
-        img(src='images/0x.png', style='height:15%;margin-bottom:5%;margin-top:-5%')
-        img(src='images/0x-demo.gif', style='height:85%')
-
-      section
-        a(href="flamegraph-express.html" target="blank")
-          img(src="images/flamegraph-express.png" style="width: 90%")
 
       section
         a(href="flamegraph-core.html" target="blank")
           img(src="images/flamegraph-bare.png" style="width: 90%")
+
+      section
+        a(href="flamegraph-express.html" target="blank")
+          img(src="images/flamegraph-express.png" style="width: 90%")
 
       section(data-bespoke-backdrop='path').trans
         h2(style="color: white") The path to fast
@@ -93,7 +97,7 @@ html
       section
         h2 The problem with JSON.stringify
         ul.bullet
-          li recursive function, it cannot be optimized by V8
+          li recursive function, hard to optimize
           li generic code, cannot be type specific
 
       section
@@ -123,7 +127,7 @@ html
             }
 
       section
-        h2 An histogram goes here
+        img(src="images/bare-fjs.png" style="height: 100%")
 
       section
         h2 Adding an HTTP router
@@ -156,7 +160,7 @@ html
             }
 
       section
-        h2 An histogram goes here
+        img(src="images/bare-fjs-fmw.png" style="height: 100%")
 
       section
         img(src="images/fastify.png" style="width: 90%")
@@ -193,11 +197,15 @@ html
             })
 
       section
-        img(src="images/bare-fastify.png" style="height: 100%")
+        img(src="images/core-vs-express-vs-fastify.png" style="height: 100%")
 
       section
         a(href="flamegraph-fastify-simple.html" target="blank")
           img(src="images/flamegraph-fastify-simple.png" style="width: 90%")
+
+      section
+        a(href="flamegraph-core.html" target="blank")
+          img(src="images/flamegraph-bare.png" style="width: 90%")
 
       section
         h2 Features Comparison
@@ -250,9 +258,9 @@ html
             td.green &#10004;
           tr
             td.left req/sec
-            td.red 18740
-            td.red 4226
-            td.green 29340
+            td.red 20860
+            td.red 5768
+            td.green 34613
 
       section
         img(src="images/build-run.png" style="width: 100%")
@@ -310,7 +318,7 @@ html
         h2 middleware
         h3
           em fastify
-          | &nbsp;consumes express/connect middlewares!
+          | &nbsp;consumes (req, res, next) middlewares!
 
         ul.bullet
           li
@@ -346,7 +354,7 @@ html
         img(src="images/fastify.png" style="width: 90%")
         br
         h3
-          a(href="https://github.com/fastify/fastify") https://github.com/fastify/fastify
+          a(href="https://www.fastify.io") https://www.fastify.io
 
       section
         h3 Most code does not need to go

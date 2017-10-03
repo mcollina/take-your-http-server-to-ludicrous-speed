@@ -9,8 +9,8 @@ var bespoke = require('bespoke'),
   hash = require('bespoke-hash'),
   pdf = require('bespoke-pdf'),
   progress = require('bespoke-progress'),
-  run = require('bespoke-run'),
-  bloomrun = require('bloomrun');
+  multimedia = require('bespoke-multimedia'),
+  run = require('bespoke-run');
 
 // Bespoke.js
 bespoke.from('article', [
@@ -23,12 +23,11 @@ bespoke.from('article', [
   backdrop(),
   scale(),
   hash(),
-  progress()
+  progress(),
+  multimedia()
 ]);
 
 // Prism syntax highlighting
 // This is actually loaded from "bower_components" thanks to
 // debowerify: https://github.com/eugeneware/debowerify
 require('prism');
-
-global.bloomrun = bloomrun;
