@@ -17,46 +17,10 @@
         </p>
       </section>
       <section data-bespoke-backdrop="spaceballs" class="trans"></section>
+      <section><img src="images/0x.png" style="height:80%;"></section>
+      <section><img src="images/autocannon.png" style="width:100%;"></section>
       <section>
-        <h3>2015</h3><a href="https://www.youtube.com/watch?v=_0W_822Dijg"><img src="images/reaching-ludicrous-speed.png" style="width: 90%"></a>
-      </section>
-      <section>
-        <h3>2016</h3><img src="./images/pino.png" style="width: 90%">
-        <ul class="bullet">
-          <li>🌲 super fast, all natural json logger 🌲</li>
-          <li>Up to 17x faster than alternatives</li>
-        </ul>
-      </section>
-      <section>
-        <h3>2016</h3>
-        <h2>Tools</h2>
-        <ul class="bullet">
-          <li><a href="http://npm.im/autocannon">autocannon</a></li>
-          <li><a href="http://npm.im/0x">0x</a></li>
-        </ul>
-      </section>
-      <section><img src="images/autocannon.png" style="width:100%;margin-bottom:5%;margin-top:-5%">
-        <h3>HTTP load tester</h3>
-        <h3>Trival cross platform installation</h3>
-        <h3>Generates the same load as alternatives in C</h3>
-      </section>
-      <section><img src="images/0x.png" style="height:15%;margin-bottom:5%;margin-top:-5%"><img src="images/0x-demo.gif" style="height:85%"></section>
-      <section>
-        <h2 style="font-size: 3.125em">0x + autocannon = 👌</h2>
-      </section>
-      <section>
-        <h2>Express</h2>
-        <pre><code class="language-javascript">'use strict'
-
-var express = require('express')
-var app = express()
-
-app.get('/', function (req, res) {
-  res.send({ hello: 'world' })
-})
-
-app.listen(3000)
-</code></pre>
+        <video src="images/demo.mp4" preload="auto" style="height: 100%" controls></video>
       </section>
       <section>
         <h2>Node Core</h2>
@@ -67,13 +31,116 @@ var server = require('http').createServer(handle)
 server.listen(3000)
 
 function handle (req, res) {
+  res.setHeader('Content-Type', 'application/json')
   res.end(JSON.stringify({ hello: 'world' }))
 }
 </code></pre>
       </section>
+      <section>
+        <h2>Express</h2>
+        <pre><code class="language-javascript">'use strict'
+
+var express = require('express')
+var app = express()
+app.disable('etag').disable('x-powered-by')
+
+app.get('/', function (req, res) {
+  res.json({ hello: 'world' })
+})
+
+app.listen(3000)
+</code></pre>
+      </section>
       <section><img src="images/core-vs-express.png" style="height: 100%"></section>
-      <section><a href="flamegraph-express.html" target="blank"><img src="images/flamegraph-express.png" style="width: 90%"></a></section>
       <section><a href="flamegraph-core.html" target="blank"><img src="images/flamegraph-bare.png" style="width: 90%"></a></section>
+      <section><a href="flamegraph-express.html" target="blank"><img src="images/flamegraph-express.png" style="width: 90%"></a></section>
+      <section data-bespoke-backdrop="path" class="trans">
+        <h2 style="color: white">The path to fast</h2>
+      </section>
+      <section>
+        <ol>
+          <li>
+            <h3>Start from scratch</h3>
+          </li>
+          <li>
+            <h3>Add a feature</h3>
+          </li>
+          <li>
+            <h3>Measure</h3>
+          </li>
+          <li>
+            <h3>Optimize until it has no overhead</h3>
+          </li>
+          <li>
+            <h3>GOTO 2</h3>
+          </li>
+        </ol>
+      </section>
+      <section>
+        <!-- TODO this might need an image as a background-->
+        <h2>Can we speed up Core?</h2>
+      </section>
+      <section>
+        <h2>The problem with JSON.stringify</h2>
+        <ul class="bullet">
+          <li>recursive function, hard to optimize</li>
+          <li>generic code, cannot be type specific</li>
+        </ul>
+      </section>
+      <section>
+        <h2>Serialization</h2><img src="images/fast-json-stringify.png" style="height: 90%">
+      </section>
+      <section>
+        <h2>fast-json-stringify</h2>
+        <ul class="bullet">
+          <li>schema-based JSON rendering</li>
+          <li>generates code based on the schema</li>
+          <li>new Function(), but it is safe</li>
+        </ul>
+      </section>
+      <section>
+        <pre><code class="language-javascript">require('http').createServer(handle).listen(3000)
+
+var stringify = require('fast-json-stringify')({
+  type: 'object',
+  properties: { hello: { type: 'string' } }
+})
+
+function handle (req, res) {
+  res.setHeader('Content-Type', 'application/json')
+  res.end(stringify({ hello: 'world' }))
+}
+</code></pre>
+      </section>
+      <section><img src="images/bare-fjs.png" style="height: 100%"></section>
+      <section>
+        <h2>Adding an HTTP router</h2>
+        <ul class="bullet">
+          <li><a href="https://github.com/delvedor/find-my-way">https://github.com/delvedor/find-my-way</a></li>
+          <li>avoid closure allocation</li>
+          <li>built on a radix-tree</li>
+          <li>safe</li>
+        </ul>
+      </section>
+      <section>
+        <h2>routing</h2><img src="images/find-my-way-bench.png" style="height: 90%"><a href="https://github.com/delvedor/router-benchmark">https://github.com/delvedor/router-benchmark</a>
+      </section>
+      <section>
+        <pre><code class="language-javascript">const router = require('find-my-way')()
+require('http').createServer(router.lookup.bind(router)).listen(3000)
+
+var stringify = require('fast-json-stringify')({
+  type: 'object',
+  properties: { hello: { type: 'string' } }
+})
+
+router.on('GET', '/', function root (req, res, params) {
+  res.setHeader('Content-Type', 'application/json')
+  res.end(stringify({ hello: 'world' }))
+}
+</code></pre>
+      </section>
+      <section><img src="images/bare-fjs-fmw.png" style="height: 100%"></section>
       <section><img src="images/fastify.png" style="width: 90%"><br>
         <h3><a href="https://github.com/fastify/fastify">https://github.com/fastify/fastify</a></h3>
       </section>
@@ -103,8 +170,9 @@ fastify.listen(3000)
 })
 </code></pre>
       </section>
-      <section><img src="images/bare-fastify.png" style="height: 100%"></section>
+      <section><img src="images/core-vs-express-vs-fastify.png" style="height: 100%"></section>
       <section><a href="flamegraph-fastify-simple.html" target="blank"><img src="images/flamegraph-fastify-simple.png" style="width: 90%"></a></section>
+      <section><a href="flamegraph-core.html" target="blank"><img src="images/flamegraph-bare.png" style="width: 90%"></a></section>
       <section>
         <h2>Features Comparison</h2>
         <table>
@@ -164,16 +232,14 @@ fastify.listen(3000)
           </tr>
           <tr>
             <td class="left">req/sec</td>
-            <td class="red">8534</td>
-            <td class="red">2200</td>
-            <td class="green">21287</td>
+            <td class="red">20860</td>
+            <td class="red">5768</td>
+            <td class="green">34613</td>
           </tr>
         </table>
       </section>
-      <section data-bespoke-backdrop="path" class="trans">
-        <h2 style="color: white">The path to fast</h2>
-      </section>
       <section><img src="images/build-run.png" style="width: 100%"></section>
+      <section><a href="https://www.youtube.com/watch?v=_0W_822Dijg"><img src="images/reaching-ludicrous-speed.png" style="width: 90%"></a></section>
       <section>
         <h2>The problem with closures</h2>
         <pre><code class="language-javascript">function process (bigdata, cb) {
@@ -211,38 +277,8 @@ fastify.listen(3000)
         <h2><em>Fastify</em>:&nbsp;no closures at all!</h2><a href="https://github.com/mcollina/reusify" class="bullet">https://github.com/mcollina/reusify</a>
       </section>
       <section>
-        <h2>routing</h2>
-        <ul class="bullet">
-          <li><a href="https://github.com/delvedor/find-my-way">https://github.com/delvedor/find-my-way</a></li>
-          <li>avoid closure allocation</li>
-          <li>built on a radix-tree</li>
-          <li>safe</li>
-        </ul>
-      </section>
-      <section>
-        <h2>routing</h2><img src="images/find-my-way-bench.png" style="height: 90%"><a href="https://github.com/delvedor/router-benchmark">https://github.com/delvedor/router-benchmark</a>
-      </section>
-      <section>
-        <h2>The problem with JSON.stringify</h2>
-        <ul class="bullet">
-          <li>recursive function, it cannot be optimized by V8</li>
-          <li>generic code, cannot be type specific</li>
-        </ul>
-      </section>
-      <section>
-        <h2>Serialization</h2><img src="images/fast-json-stringify.png" style="height: 90%">
-      </section>
-      <section>
-        <h2>fast-json-stringify</h2>
-        <ul class="bullet">
-          <li>schema-based JSON rendering</li>
-          <li>generates code based on the schema</li>
-          <li>new Function(), but it is safe</li>
-        </ul>
-      </section>
-      <section>
         <h2>middleware</h2>
-        <h3><em>fastify</em>&nbsp;consumes express/connect middlewares!</h3>
+        <h3><em>fastify</em>&nbsp;consumes (req, res, next) middlewares!</h3>
         <ul class="bullet">
           <li><a href="https://github.com/fastify/middie">https://github.com/fastify/middie</a></li>
         </ul>
@@ -261,13 +297,17 @@ fastify.listen(3000)
         <h2>validation correctness</h2><img src="./images/validators-errors.png" style="height: 60%"><br><a href="https://github.com/ebdrup/json-schema-benchmark">https://github.com/ebdrup/json-schema-benchmark</a>
       </section>
       <section><img src="images/fastify.png" style="width: 90%"><br>
-        <h3><a href="https://github.com/fastify/fastify">https://github.com/fastify/fastify</a></h3>
+        <h3><a href="https://www.fastify.io">https://www.fastify.io</a></h3>
       </section>
       <section>
         <h3>Most code does not need to go</h3><img src="./images/ludicrous.gif">
       </section>
       <section><a href="https://www.nearform.com/blog/node-js-is-getting-a-new-v8-with-turbofan/"><img src="images/turbofan-post.png" style="width: 90%"></a>
         <p style="font-size: 0.6em;"><a href="https://www.nearform.com/blog/node-js-is-getting-a-new-v8-with-turbofan/">https://www.nearform.com/blog/node-js-is-getting-a-new-v8-with-turbofan/</a></p>
+      </section>
+      <section>
+        <h2>Acknowledgements</h2><br><br>
+        <div class="bullet"><img src="images/nearform.svg" style="width: 70%" class="bullet"><br><br><img src="images/letzdoit.png" style="width: 65%" class="bullet"></div>
       </section>
       <section>
         <h2>This presentation</h2>
