@@ -1,148 +1,119 @@
-'use strict';
+'use strict'
 
-var pkg = require('./package.json'),
-  gulp = require('gulp'),
-  gutil = require('gulp-util'),
-  plumber = require('gulp-plumber'),
-  rename = require('gulp-rename'),
-  connect = require('gulp-connect'),
-  browserify = require('gulp-browserify'),
-  uglify = require('gulp-uglify'),
-  jade = require('gulp-jade'),
-  stylus = require('gulp-stylus'),
-  autoprefixer = require('gulp-autoprefixer'),
-  csso = require('gulp-csso'),
-  del = require('del'),
-  through = require('through'),
-  opn = require('opn'),
-  ghpages = require('gh-pages'),
-  path = require('path'),
-  isDist = process.argv.indexOf('serve') === -1;
+var gulp = require('gulp')
+var plumber = require('gulp-plumber')
+var rename = require('gulp-rename')
+var livereload = require('gulp-livereload')
+var browserify = require('gulp-browserify')
+var uglify = require('gulp-uglify')
+var pug = require('gulp-pug')
+var stylus = require('gulp-stylus')
+var autoprefixer = require('gulp-autoprefixer')
+var csso = require('gulp-csso')
+var del = require('del')
+var through = require('through')
+var opn = require('opn')
+var ghpages = require('gh-pages')
+var path = require('path')
+var http = require('http')
+var serveStatic = require('serve-static')
+var final = require('finalhandler')
+var spawn = require('child_process').spawn
+var isDist = process.argv.indexOf('serve') === -1
 
-try {
-  var pdf = require('bespoke-pdf')
-}
-catch(err){
-  console.log("Bespoke PDF is not loaded\nProbably are U using windows . . . ");
-}
+var server
 
-gulp.task('js', ['clean:js'], function() {
+gulp.task('clean', function () {
+  return del('dist')
+})
+
+gulp.task('js', function () {
   return gulp.src('src/scripts/main.js')
     .pipe(isDist ? through() : plumber())
-    .pipe(browserify({ transform: ['debowerify'], debug: !isDist }))
+    .pipe(browserify({ debug: !isDist }))
     .pipe(isDist ? uglify() : through())
     .pipe(rename('build.js'))
     .pipe(gulp.dest('dist/build'))
-    .pipe(connect.reload());
-});
+    .pipe(livereload())
+})
 
-gulp.task('html', ['clean:html'], function() {
-  return gulp.src('src/index.jade')
+gulp.task('html', () => {
+  return gulp.src('src/index.pug')
     .pipe(isDist ? through() : plumber())
-    .pipe(jade({ pretty: true }))
+    .pipe(pug({ pretty: true }))
     .pipe(rename('index.html'))
     .pipe(gulp.dest('dist'))
-    .pipe(connect.reload());
-});
+    .pipe(livereload())
+})
 
-gulp.task('css', ['clean:css'], function() {
+gulp.task('css', function () {
   return gulp.src('src/styles/main.styl')
     .pipe(isDist ? through() : plumber())
     .pipe(stylus({
       // Allow CSS to be imported from node_modules and bower_components
       'include css': true,
-      'paths': ['./node_modules', './bower_components']
+      'paths': ['./node_modules']
     }))
     .pipe(autoprefixer('last 2 versions', { map: false }))
     .pipe(isDist ? csso() : through())
     .pipe(rename('build.css'))
     .pipe(gulp.dest('dist/build'))
-    .pipe(connect.reload());
-});
+    .pipe(livereload())
+})
 
-gulp.task('images', ['clean:images'], function() {
+gulp.task('images', function () {
   return gulp.src('src/images/**/*')
     .pipe(gulp.dest('dist/images'))
-    .pipe(connect.reload());
-});
+    .pipe(livereload())
+})
 
-gulp.task('copy-html', ['clean:html'], function() {
+gulp.task('copy-html', function () {
   return gulp.src('src/*.html')
     .pipe(gulp.dest('dist/'))
-    .pipe(connect.reload());
-});
+    .pipe(livereload())
+})
 
-gulp.task('pdf', ['connect'], function () {
-  return pdf(pkg.name + '.pdf')
-    .pipe(gulp.dest('pdf'));
-});
+gulp.task('build', gulp.series('clean', gulp.parallel(['js', 'html', 'css', 'images', 'copy-html'])))
 
-gulp.task('clean', function(done) {
-  del('dist', done);
-});
+gulp.task('watch', function (done) {
+  livereload.listen({ basePath: 'dist' })
+  gulp.watch('src/**/*.pug', gulp.parallel('html'))
+  gulp.watch('src/styles/**/*.styl', gulp.parallel('css'))
+  gulp.watch('src/images/**/*', gulp.parallel('images'))
+  gulp.watch('src/*.html', gulp.parallel('copy-html'))
+  gulp.watch('src/scripts/**/*.js', gulp.parallel('js'))
+  gulp.watch('bespoke-theme-*/dist/*.js', gulp.parallel('js')) // Allow themes to be developed in parallel
+  done()
+})
 
-gulp.task('clean:html', function(done) {
-  del('dist/*.html', done);
-});
+gulp.task('open', gulp.series('watch', function realOpen () {
+  return opn('http://localhost:8080')
+}))
 
-gulp.task('clean:js', function(done) {
-  del('dist/build/build.js', done);
-});
+gulp.task('server', (done) => {
+  var serve = serveStatic('dist/', {'index': ['index.html', 'index.htm']})
+  server = http.createServer(function (req, res) {
+    serve(req, res, final(req, res))
+  })
 
-gulp.task('clean:css', function(done) {
-  del('dist/build/build.css', done);
-});
+  server.listen(8080, done)
+})
 
-gulp.task('clean:images', function(done) {
-  del('dist/images', done);
-});
+gulp.task('serve', gulp.series('build', 'server'))
 
-gulp.task('clean:pdf', function(done) {
-  del('pdf/' + pkg.name + '.pdf', done);
-});
+gulp.task('open', gulp.series('serve', 'watch', 'open'))
 
-gulp.task('clean:fonts', function(done) {
-  del('dist/fonts', done);
-});
+gulp.task('default', gulp.series('build'))
 
-gulp.task('font-awesome', ['clean:fonts'], function() {
-  return gulp.src('./bower_components/font-awesome/fonts/*')
-  .pipe(gulp.dest('dist/fonts'))
-  .pipe(connect.reload());
-});
+gulp.task('deploy', gulp.series(['build', function _deploy (done) {
+  ghpages.publish(path.join(__dirname, 'dist'), done)
+}]))
 
-gulp.task('connect', ['build'], function() {
-  connect.server({
-    root: 'dist',
-    livereload: true
-  });
-});
-
-gulp.task('open', ['connect'], function (done) {
-  opn('http://localhost:8080', done);
-});
-
-gulp.task('watch', function() {
-  gulp.watch('src/**/*.jade', ['html', 'copy-html']);
-  gulp.watch('src/styles/**/*.styl', ['css']);
-  gulp.watch('src/images/**/*', ['images']);
-  gulp.watch('src/*.html', ['html', 'copy-html']);
-  gulp.watch([
-    'src/scripts/**/*.js',
-    'bespoke-theme-*/dist/*.js' // Allow themes to be developed in parallel
-  ], ['js']);
-});
-
-gulp.task('exit', ['pdf'], function () {
-  process.exit();
-});
-
-gulp.task('deploy', ['build'], function(done) {
-  ghpages.publish(path.join(__dirname, 'dist'), { logger: gutil.log }, done);
-});
-
-gulp.task('build', ['js', 'html', 'css', 'images', 'font-awesome', 'copy-html']);
-
-gulp.task('serve', ['open', 'watch']);
-
-gulp.task('default', ['build', 'pdf', 'exit']);
+gulp.task('pdf', gulp.series('build', 'server', function print () {
+  return spawn(path.join(__dirname, 'node_modules', '.bin', 'decktape'), ['bespoke', 'http://localhost:8080', 'slides.pdf'], { stdio: 'inherit' })
+}, function shutdown (done) {
+  if (server) {
+    server.close()
+  }
+  done()
+}))
