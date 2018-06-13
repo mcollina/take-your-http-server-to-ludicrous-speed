@@ -12,8 +12,10 @@ html
     article
 
       section
+        a(href="http://nearform.com" style="width: 20%")
+          img(src="./images/nearform.svg")
         h1 Take your HTTP server to
-        img(src="./images/ludicrous.gif")
+        img(src="./images/ludicrous.gif" style="height: 30%")
         br
         h3 by&nbsp;
           a(href="http://twitter.com/matteocollina") @matteocollina
@@ -24,13 +26,10 @@ html
       section(data-bespoke-backdrop='spaceballs').trans
 
       section
-        img(src='images/0x.png', style='height:80%;')
-
-      section
         img(src='images/autocannon.png', style='width:100%;')
 
       section
-        video(src="images/demo.mp4" preload="auto" style="height: 100%" controls)
+        img(src='images/clinic.png', style='height:80%;')
 
       section
         h2 Node Core
@@ -174,8 +173,8 @@ html
             'use strict'
             const fastify = require('fastify')()
 
-            fastify.get('/', function (req, reply) {
-              reply.send({ hello: 'world' })
+            fastify.get('/', async function (req, reply) {
+              return { hello: 'world' }
             })
 
             fastify.listen(3000)
@@ -258,9 +257,9 @@ html
             td.green &#10004;
           tr
             td.left req/sec
-            td.red 20860
-            td.red 5768
-            td.green 34613
+            td.red 22365
+            td.red 21769
+            td.green 35912
 
       section
         img(src="images/build-run.png" style="width: 100%")
@@ -311,8 +310,7 @@ html
       section
         h2
           em Fastify
-          | :&nbsp;no closures at all!
-        a.bullet(href="https://github.com/mcollina/reusify") https://github.com/mcollina/reusify
+          | &nbsp;is extremely careful in maintaining the least amount of state in the most efficient way.
 
       section
         h2 middleware
@@ -361,20 +359,11 @@ html
         img(src="./images/ludicrous.gif")
 
       section
-        a(href="https://www.nearform.com/blog/node-js-is-getting-a-new-v8-with-turbofan/")
-          img(src="images/turbofan-post.png", style="width: 90%")
-        p(style="font-size: 0.6em;")
-          a(href="https://www.nearform.com/blog/node-js-is-getting-a-new-v8-with-turbofan/") https://www.nearform.com/blog/node-js-is-getting-a-new-v8-with-turbofan/
-
-      section
         h2 Acknowledgements
         br
         br
         div.bullet
           img.bullet(src="images/nearform.svg" style="width: 70%")
-          br
-          br
-          img.bullet(src="images/letzdoit.png" style="width: 65%")
 
       section
         h2 This presentation
