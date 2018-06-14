@@ -8,20 +8,17 @@
   </head>
   <body>
     <article>
-      <section>
-        <h1>Take your HTTP server to</h1><img src="./images/ludicrous.gif"><br>
+      <section><a href="http://nearform.com" style="width: 20%"><img src="./images/nearform.svg"></a>
+        <h1>Take your HTTP server to</h1><img src="./images/ludicrous.gif" style="height: 30%"><br>
         <h3>by&nbsp;<a href="http://twitter.com/matteocollina">@matteocollina</a></h3>
         <p class="copyright">
           Ludicrous speed is from Spaceballs
           
         </p>
       </section>
-      <section data-bespoke-backdrop="spaceballs" class="trans"></section>
-      <section><img src="images/0x.png" style="height:80%;"></section>
+      <section class="trans" data-bespoke-backdrop="spaceballs"></section>
       <section><img src="images/autocannon.png" style="width:100%;"></section>
-      <section>
-        <video src="images/demo.mp4" preload="auto" style="height: 100%" controls></video>
-      </section>
+      <section><img src="images/clinic.png" style="height:80%;"></section>
       <section>
         <h2>Node Core</h2>
         <pre><code class="language-javascript">'use strict'
@@ -54,7 +51,7 @@ app.listen(3000)
       <section><img src="images/core-vs-express.png" style="height: 100%"></section>
       <section><a href="flamegraph-core.html" target="blank"><img src="images/flamegraph-bare.png" style="width: 90%"></a></section>
       <section><a href="flamegraph-express.html" target="blank"><img src="images/flamegraph-express.png" style="width: 90%"></a></section>
-      <section data-bespoke-backdrop="path" class="trans">
+      <section class="trans" data-bespoke-backdrop="path">
         <h2 style="color: white">The path to fast</h2>
       </section>
       <section>
@@ -148,8 +145,8 @@ router.on('GET', '/', function root (req, res, params) {
         <pre><code class="language-javascript">'use strict'
 const fastify = require('fastify')()
 
-fastify.get('/', function (req, reply) {
-  reply.send({ hello: 'world' })
+fastify.get('/', async function (req, reply) {
+  return { hello: 'world' }
 })
 
 fastify.listen(3000)
@@ -232,9 +229,9 @@ fastify.listen(3000)
           </tr>
           <tr>
             <td class="left">req/sec</td>
-            <td class="red">20860</td>
-            <td class="red">5768</td>
-            <td class="green">34613</td>
+            <td class="red">22365</td>
+            <td class="red">21769</td>
+            <td class="green">35912</td>
           </tr>
         </table>
       </section>
@@ -274,7 +271,7 @@ fastify.listen(3000)
 </code></pre>
       </section>
       <section>
-        <h2><em>Fastify</em>:&nbsp;no closures at all!</h2><a href="https://github.com/mcollina/reusify" class="bullet">https://github.com/mcollina/reusify</a>
+        <h2><em>Fastify</em>&nbsp;is extremely careful in maintaining the least amount of state in the most efficient way.</h2>
       </section>
       <section>
         <h2>middleware</h2>
@@ -302,12 +299,9 @@ fastify.listen(3000)
       <section>
         <h3>Most code does not need to go</h3><img src="./images/ludicrous.gif">
       </section>
-      <section><a href="https://www.nearform.com/blog/node-js-is-getting-a-new-v8-with-turbofan/"><img src="images/turbofan-post.png" style="width: 90%"></a>
-        <p style="font-size: 0.6em;"><a href="https://www.nearform.com/blog/node-js-is-getting-a-new-v8-with-turbofan/">https://www.nearform.com/blog/node-js-is-getting-a-new-v8-with-turbofan/</a></p>
-      </section>
       <section>
         <h2>Acknowledgements</h2><br><br>
-        <div class="bullet"><img src="images/nearform.svg" style="width: 70%" class="bullet"><br><br><img src="images/letzdoit.png" style="width: 65%" class="bullet"></div>
+        <div class="bullet"><img class="bullet" src="images/nearform.svg" style="width: 70%"></div>
       </section>
       <section>
         <h2>This presentation</h2>
