@@ -8,7 +8,7 @@
   </head>
   <body>
     <article>
-      <section><a href="http://nearform.com" style="width: 20%"><img src="./images/nearform.svg"></a>
+      <section><a href="http://nearform.com" style="width: 40%"><img src="./images/nearform.svg"></a>
         <h1>Take your HTTP server to</h1><img src="./images/ludicrous.gif" style="height: 30%"><br>
         <h3>by&nbsp;<a href="http://twitter.com/matteocollina">@matteocollina</a></h3>
         <p class="copyright">
@@ -293,16 +293,93 @@ fastify.listen(3000)
         <!-- TODO add arrow to ajv-->
         <h2>validation correctness</h2><img src="./images/validators-errors.png" style="height: 60%"><br><a href="https://github.com/ebdrup/json-schema-benchmark">https://github.com/ebdrup/json-schema-benchmark</a>
       </section>
+      <section>
+        <h2>Fast is not everything</h2>
+      </section>
+      <section>
+        <h2>Fastify plugin system</h2>
+        <pre><code class="language-javascript">fastify.register(
+  require('my-plugin'),
+  { options }
+)
+</code></pre>
+      </section>
+      <section>
+        <h2>Everything that could be a plugin, should be a plugin</h2>
+      </section>
+      <section>
+        <pre><code class="language-javascript">module.exports = function myPlugin (fastify, opts, next) {
+  // register other plugins
+  fastify.register(...)
+  // add hooks
+  fastify.addHook(...)
+  // add decorator
+  fastify.decorate(...)
+  // add routes
+  fastify.route(...)
+
+  next()
+}
+</code></pre>
+      </section>
+      <section><img src="images/dag.png" style="width: 90%"></section>
+      <section><img src="images/dag-decorate.png" style="width: 90%"></section>
+      <section>
+        <pre><code class="language-javascript">const fp = require('fastify-plugin')
+
+async function myPlugin (fastify, options) {
+  fastify.decorate('util', yourAwesomeUtility)
+  // now you can use it with `fastify.util`
+}
+
+module.exports = fp(myPlugin)
+</code></pre>
+      </section>
+      <section><img src="images/dag-fp-encapsulate.png" style="width: 90%"></section>
+      <section><img src="images/plugin-real-world.png" style="width: 90%"></section>
+      <section>
+        <pre><code class="language-javascript">const fastify = require('fastify')()
+
+fastify.register(require('./api/v1'), {
+  prefix: '/v1',
+  logLevel: 'error'
+})
+
+fastify.register(require('./api/v2'), {
+  prefix: '/v2',
+  logLevel: 'debug'
+})
+</code></pre>
+      </section>
       <section><img src="images/fastify.png" style="width: 90%"><br>
         <h3><a href="https://www.fastify.io">https://www.fastify.io</a></h3>
       </section>
       <section>
-        <h3>Most code does not need to go</h3><img src="./images/ludicrous.gif">
+        <h2>Fastify is not built by one developer</h2>
       </section>
       <section>
-        <h2>Acknowledgements</h2><br><br>
-        <div class="bullet"><img class="bullet" src="images/nearform.svg" style="width: 70%"></div>
+        <h2>Open Open Source</h2>
+        <p>Individuals making significant and valuable *contributions* are given commit-access to the project to contribute as they see fit.</p><a href="http://openopensource.org">openopensource.org</a>
       </section>
+      <section>
+        <h2>10 Collaborators</h2>
+      </section>
+      <section>
+        <h2>107 Contributors</h2>
+      </section>
+      <section>
+        <h2>>= 1700 Commits</h2>
+      </section>
+      <section>
+        <h2>>= 90 versions</h2>
+      </section>
+      <section>
+        <h2>85 plugins</h2>
+      </section>
+      <section>
+        <h3>Most code does not need to go</h3><img src="./images/ludicrous.gif">
+      </section>
+      <section><img class="bullet" src="images/nearform-full.svg" style="width: 100%"></section>
       <section>
         <h2>This presentation</h2>
         <ul class="bullet">
@@ -312,11 +389,8 @@ fastify.listen(3000)
               </a></li>
         </ul>
       </section>
-      <section class="full-imgs"><img src="images/me.png">
-        <h3><a href="http://github.com/mcollina">http://github.com/mcollina</a></h3>
-      </section>
       <section>
-        <h1>Thanks!</h1><a href="http://nearform.com" style="width: 20%"><img src="./images/nearform.svg"></a><br>
+        <h1>Thanks!</h1><a href="http://nearform.com" style="width: 40%"><img src="./images/nearform.svg"></a>
         <p>If you need help with Node.js, contact us</p><br>
         <h3><a href="mailto:matteo.collina@nearform.com">matteo.collina@nearform.com</a></h3>
         <h3><a href="http://twitter.com/matteocollina">@matteocollina</a> on Twitter</h3>
