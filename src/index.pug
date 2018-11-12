@@ -404,11 +404,52 @@ html
       section
         img(src="images/plugin-real-world.png" style="width: 90%")
 
+
+      section
+        pre
+          code.language-javascript.
+            const fastify = require('fastify')()
+
+            fastify.register(require('./api/v1'), {
+              prefix: '/v1',
+              logLevel: 'error'
+            })
+
+            fastify.register(require('./api/v2'), {
+              prefix: '/v2',
+              logLevel: 'debug'
+            })
+
       section
         img(src="images/fastify.png" style="width: 90%")
         br
         h3
           a(href="https://www.fastify.io") https://www.fastify.io
+
+      section
+        h2 Fastify is not built by one developer
+
+      section
+        h2 Open Open Source
+
+        p Individuals making significant and valuable *contributions* are given commit-access to the project to contribute as they see fit.
+
+        a(href="http://openopensource.org") openopensource.org
+
+      section
+        h2 10 Collaborators
+
+      section
+        h2 107 Contributors
+
+      section
+        h2 >= 1700 Commits
+
+      section
+        h2 >= 90 versions
+
+      section
+        h2 85 plugins
 
       section
         h3 Most code does not need to go
