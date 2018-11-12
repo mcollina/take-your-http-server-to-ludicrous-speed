@@ -12,7 +12,7 @@ html
     article
 
       section
-        a(href="http://nearform.com" style="width: 20%")
+        a(href="http://nearform.com" style="width: 40%")
           img(src="./images/nearform.svg")
         h1 Take your HTTP server to
         img(src="./images/ludicrous.gif" style="height: 30%")
@@ -349,6 +349,62 @@ html
         a(href="https://github.com/ebdrup/json-schema-benchmark") https://github.com/ebdrup/json-schema-benchmark
 
       section
+        h2 Fast is not everything
+
+      section
+        h2 Fastify plugin system
+
+        pre
+          code.language-javascript.
+            fastify.register(
+              require('my-plugin'),
+              { options }
+            )
+
+      section
+        h2 Everything that could be a plugin, should be a plugin
+
+      section
+        pre
+          code.language-javascript.
+            module.exports = function myPlugin (fastify, opts, next) {
+              // register other plugins
+              fastify.register(...)
+              // add hooks
+              fastify.addHook(...)
+              // add decorator
+              fastify.decorate(...)
+              // add routes
+              fastify.route(...)
+
+              next()
+            }
+
+      section
+        img(src="images/dag.png" style="width: 90%")
+
+      section
+        img(src="images/dag-decorate.png" style="width: 90%")
+
+      section
+        pre
+          code.language-javascript.
+            const fp = require('fastify-plugin')
+
+            async function myPlugin (fastify, options) {
+              fastify.decorate('util', yourAwesomeUtility)
+              // now you can use it with `fastify.util`
+            }
+
+            module.exports = fp(myPlugin)
+
+      section
+        img(src="images/dag-fp-encapsulate.png" style="width: 90%")
+
+      section
+        img(src="images/plugin-real-world.png" style="width: 90%")
+
+      section
         img(src="images/fastify.png" style="width: 90%")
         br
         h3
@@ -359,11 +415,7 @@ html
         img(src="./images/ludicrous.gif")
 
       section
-        h2 Acknowledgements
-        br
-        br
-        div.bullet
-          img.bullet(src="images/nearform.svg" style="width: 70%")
+        img.bullet(src="images/nearform-full.svg" style="width: 100%")
 
       section
         h2 This presentation
@@ -375,16 +427,10 @@ html
             a(href="https://github.com/mcollina/take-your-http-server-to-ludicrous-speed").
               https://github.com/mcollina/take-your-http-server-to-ludicrous-speed
 
-      section.full-imgs
-        img(src='images/me.png')
-        h3
-          a(href='http://github.com/mcollina') http://github.com/mcollina
-
       section
         h1 Thanks!
-        a(href="http://nearform.com" style="width: 20%")
+        a(href="http://nearform.com" style="width: 40%")
           img(src="./images/nearform.svg")
-        br
         p If you need help with Node.js, contact us
         br
         h3 <a href="mailto:matteo.collina@nearform.com">matteo.collina@nearform.com</a>
