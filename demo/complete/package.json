@@ -9,9 +9,9 @@
   "author": "Matteo Collina <hello@matteocollina.com>",
   "license": "MIT",
   "dependencies": {
-    "fastify": "^0.29.0",
-    "fastify-helmet": "^1.0.1",
-    "marko": "^4.4.28",
-    "point-of-view": "^0.3.0"
+    "fastify": "^1.13.0",
+    "fastify-helmet": "^2.1.0",
+    "marko": "^4.13.8",
+    "point-of-view": "^2.0.0"
   }
 }
