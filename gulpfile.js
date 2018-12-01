@@ -67,13 +67,19 @@ gulp.task('images', function () {
     .pipe(livereload())
 })
 
+gulp.task('fonts', function () {
+  return gulp.src('src/fonts/**/*')
+    .pipe(gulp.dest('dist/fonts'))
+    .pipe(livereload())
+})
+
 gulp.task('copy-html', function () {
   return gulp.src('src/*.html')
     .pipe(gulp.dest('dist/'))
     .pipe(livereload())
 })
 
-gulp.task('build', gulp.series('clean', gulp.parallel(['js', 'html', 'css', 'images', 'copy-html'])))
+gulp.task('build', gulp.series('clean', gulp.parallel(['js', 'html', 'css', 'images', 'fonts', 'copy-html'])))
 
 gulp.task('watch', function (done) {
   livereload.listen({ basePath: 'dist' })

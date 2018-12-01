@@ -3,7 +3,7 @@
 
 slide_width = 640px
 slide_height = 480px
-slide_background = white
+slide_background = #f4f4f2
 
 slide_transition_length = .6s
 slide_transition_easing = ease
@@ -16,6 +16,22 @@ bullet_transition_easing = ease
 bullet_transition_translate_x = 16px
 
 // base
+
+@font-face
+  font-family: 'Archia'
+  font-style: normal
+  font-weight: 400
+  src:
+    local('Archia'),
+    local('Archia-SemiBold'),
+    url('./fonts/Archia-SemiBold.otf') format('opentype')
+
+@font-face
+  font-family: 'Campton Bold'
+  font-style: normal
+  font-weight: 400
+  src:
+    url('./fonts/Campton-Bold.otf') format('opentype')
 
 *
   box-sizing: border-box
@@ -214,11 +230,13 @@ pre
 // content styles
 
 body
-  font-family: helvetica, arial, sans-serif
+  font-family: Archia, -apple-system, BlinkMacSystemFont, 'avenir next', avenir, helvetica, 'helvetica neue', ubuntu, roboto, noto, 'segoe ui', arial, sans-serif;
   font-size: 18px
-  color: #404040
+  background-color: slide_background
+  color: #6d6d68
 
 h1
+  font-family: Campton-Bold, -apple-system, BlinkMacSystemFont, 'avenir next', avenir, helvetica, 'helvetica neue', ubuntu, roboto, noto, 'segoe ui', arial, sans-serif;
   font-size: 72px
   line-height: 82px
   letter-spacing: -2px
