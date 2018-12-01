@@ -114,6 +114,7 @@ html
         pre
           code.language-javascript.
             require('http').createServer(handle).listen(3000)
+            var flatstr = require('flatstr')
 
             var stringify = require('fast-json-stringify')({
               type: 'object',
@@ -122,7 +123,7 @@ html
 
             function handle (req, res) {
               res.setHeader('Content-Type', 'application/json')
-              res.end(stringify({ hello: 'world' }))
+              res.end(flatstr(stringify({ hello: 'world' })))
             }
 
       section
@@ -146,16 +147,16 @@ html
         pre
           code.language-javascript.
             const router = require('find-my-way')()
+            const flatstr = require('flatstr')
             require('http').createServer(router.lookup.bind(router)).listen(3000)
 
             var stringify = require('fast-json-stringify')({
               type: 'object',
               properties: { hello: { type: 'string' } }
             })
-
             router.on('GET', '/', function root (req, res, params) {
               res.setHeader('Content-Type', 'application/json')
-              res.end(stringify({ hello: 'world' }))
+              res.end(flatstr(stringify({ hello: 'world' })))
             }
 
       section
@@ -257,9 +258,9 @@ html
             td.green &#10004;
           tr
             td.left req/sec
-            td.red 22365
-            td.red 21769
-            td.green 35912
+            td.red 18k
+            td.red 20k
+            td.green 36k
 
       section
         img(src="images/build-run.png" style="width: 100%")
@@ -440,16 +441,16 @@ html
         h2 10 Collaborators
 
       section
-        h2 107 Contributors
+        h2 110 Contributors
 
       section
-        h2 >= 1700 Commits
+        h2 >= 1800 Commits
 
       section
-        h2 >= 90 versions
+        h2 >= 98 versions
 
       section
-        h2 85 plugins
+        h2 87 plugins
 
       section
         h3 Most code does not need to go

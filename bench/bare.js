@@ -1,10 +1,8 @@
 'use strict'
 
-var server = require('http').createServer(handle)
+const server = require('http').createServer(function (req, res) {
+  res.setHeader('content-type', 'application/json; charset=utf-8')
+  res.end(JSON.stringify({ hello: 'world' }))
+})
 
 server.listen(3000)
-
-function handle (req, res) {
-  res.setHeader('Content-Type', 'application/json')
-  res.end(JSON.stringify({ hello: 'world' }))
-}

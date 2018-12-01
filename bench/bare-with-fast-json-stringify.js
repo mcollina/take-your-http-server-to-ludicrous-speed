@@ -1,6 +1,7 @@
 'use strict'
 
 const server = require('http').createServer(handle)
+const flatstr = require('flatstr')
 const stringify = require('fast-json-stringify')({
   type: 'object',
   properties: {
@@ -13,6 +14,6 @@ const stringify = require('fast-json-stringify')({
 server.listen(3000)
 
 function handle (req, res) {
-  res.setHeader('Content-Type', 'application/json')
-  res.end(stringify({ hello: 'world' }))
+  res.setHeader('content-type', 'application/json; charset=utf-8')
+  res.end(flatstr(stringify({ hello: 'world' })))
 }
