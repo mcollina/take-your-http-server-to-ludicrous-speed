@@ -17,8 +17,6 @@
         </p>
       </section>
       <section class="trans" data-bespoke-backdrop="spaceballs"></section>
-      <section><img src="images/autocannon.png" style="width:100%;"></section>
-      <section><img src="images/clinic.png" style="height:80%;"></section>
       <section>
         <h2>Node Core</h2>
         <pre><code class="language-javascript">'use strict'
@@ -48,11 +46,14 @@ app.get('/', function (req, res) {
 app.listen(3000)
 </code></pre>
       </section>
+      <section><img src="images/autocannon.png" style="width:100%;"></section>
       <section><img src="images/core-vs-express.png" style="height: 100%"></section>
+      <section><img src="images/opt-process.png" style="height:110%;"></section>
+      <section><img src="images/clinic.png" style="height:80%;"></section>
       <section><a href="flamegraph-core.html" target="blank"><img src="images/flamegraph-bare.png" style="width: 90%"></a></section>
       <section><a href="flamegraph-express.html" target="blank"><img src="images/flamegraph-express.png" style="width: 90%"></a></section>
       <section class="trans" data-bespoke-backdrop="path">
-        <h2 style="color: white">The path to fast</h2>
+        <h1 style="color: white">The path to fast</h1>
       </section>
       <section>
         <ol>
@@ -97,6 +98,7 @@ app.listen(3000)
       </section>
       <section>
         <pre><code class="language-javascript">require('http').createServer(handle).listen(3000)
+var flatstr = require('flatstr')
 
 var stringify = require('fast-json-stringify')({
   type: 'object',
@@ -105,7 +107,7 @@ var stringify = require('fast-json-stringify')({
 
 function handle (req, res) {
   res.setHeader('Content-Type', 'application/json')
-  res.end(stringify({ hello: 'world' }))
+  res.end(flatstr(stringify({ hello: 'world' })))
 }
 </code></pre>
       </section>
@@ -124,16 +126,16 @@ function handle (req, res) {
       </section>
       <section>
         <pre><code class="language-javascript">const router = require('find-my-way')()
+const flatstr = require('flatstr')
 require('http').createServer(router.lookup.bind(router)).listen(3000)
 
 var stringify = require('fast-json-stringify')({
   type: 'object',
   properties: { hello: { type: 'string' } }
 })
-
 router.on('GET', '/', function root (req, res, params) {
   res.setHeader('Content-Type', 'application/json')
-  res.end(stringify({ hello: 'world' }))
+  res.end(flatstr(stringify({ hello: 'world' })))
 }
 </code></pre>
       </section>
@@ -229,9 +231,9 @@ fastify.listen(3000)
           </tr>
           <tr>
             <td class="left">req/sec</td>
-            <td class="red">22365</td>
-            <td class="red">21769</td>
-            <td class="green">35912</td>
+            <td class="red">18k</td>
+            <td class="red">20k</td>
+            <td class="green">36k</td>
           </tr>
         </table>
       </section>
@@ -322,8 +324,8 @@ fastify.listen(3000)
 }
 </code></pre>
       </section>
-      <section><img src="images/dag.png" style="width: 90%"></section>
-      <section><img src="images/dag-decorate.png" style="width: 90%"></section>
+      <section><img src="images/dag.png" style="width: 70%"></section>
+      <section><img src="images/dag-decorate.png" style="width: 70%"></section>
       <section>
         <pre><code class="language-javascript">const fp = require('fastify-plugin')
 
@@ -335,7 +337,7 @@ async function myPlugin (fastify, options) {
 module.exports = fp(myPlugin)
 </code></pre>
       </section>
-      <section><img src="images/dag-fp-encapsulate.png" style="width: 90%"></section>
+      <section><img src="images/dag-fp-encapsulate.png" style="width: 70%"></section>
       <section><img src="images/plugin-real-world.png" style="width: 90%"></section>
       <section>
         <pre><code class="language-javascript">const fastify = require('fastify')()
@@ -355,6 +357,9 @@ fastify.register(require('./api/v2'), {
         <h3><a href="https://www.fastify.io">https://www.fastify.io</a></h3>
       </section>
       <section>
+        <h1>Demo</h1>
+      </section>
+      <section>
         <h2>Fastify is not built by one developer</h2>
       </section>
       <section>
@@ -365,16 +370,16 @@ fastify.register(require('./api/v2'), {
         <h2>10 Collaborators</h2>
       </section>
       <section>
-        <h2>107 Contributors</h2>
+        <h2>110 Contributors</h2>
       </section>
       <section>
-        <h2>>= 1700 Commits</h2>
+        <h2>>= 1800 Commits</h2>
       </section>
       <section>
-        <h2>>= 90 versions</h2>
+        <h2>>= 98 versions</h2>
       </section>
       <section>
-        <h2>85 plugins</h2>
+        <h2>87 plugins</h2>
       </section>
       <section>
         <h3>Most code does not need to go</h3><img src="./images/ludicrous.gif">
@@ -390,8 +395,7 @@ fastify.register(require('./api/v2'), {
         </ul>
       </section>
       <section>
-        <h1>Thanks!</h1><a href="http://nearform.com" style="width: 40%"><img src="./images/nearform.svg"></a>
-        <p>If you need help with Node.js, contact us</p><br>
+        <h1>Thanks!</h1><a href="http://nearform.com" style="width: 40%"><img src="./images/nearform.svg"></a><br>
         <h3><a href="mailto:matteo.collina@nearform.com">matteo.collina@nearform.com</a></h3>
         <h3><a href="http://twitter.com/matteocollina">@matteocollina</a> on Twitter</h3>
         <h3><a href="http://www.nearform.com">www.nearform.com</a></h3>
