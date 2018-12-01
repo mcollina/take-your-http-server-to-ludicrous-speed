@@ -29,8 +29,6 @@ html
         h2 Node Core
         pre
           code.language-javascript.
-            'use strict'
-
             var server = require('http').createServer(handle)
 
             server.listen(3000)
@@ -44,8 +42,6 @@ html
         h2 Express
         pre
           code.language-javascript.
-            'use strict'
-
             var express = require('express')
             var app = express()
             app.disable('etag').disable('x-powered-by')
@@ -315,6 +311,12 @@ html
         h2
           em Fastify
           | &nbsp;is extremely careful in maintaining the least amount of state in the most efficient way.
+
+      section
+        h2 Logging with Pino
+        img(src="images/pino.png" style="height: 50%")
+        br
+        a(href="https://getpino.io") getpino.io
 
       section
         h2 middleware
