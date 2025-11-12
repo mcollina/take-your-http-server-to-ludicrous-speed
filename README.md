@@ -1,8 +1,7 @@
 # Take your HTTP server to Ludicrous Speed
 > A [Bespoke.js](http://markdalgleish.com/projects/bespoke.js) presentation, built with [generator-bespoke](https://github.com/markdalgleish/generator-bespoke)
 
-Watch the video at
-https://skillsmatter.com/skillscasts/10342-take-your-http-server-to-ludicrous-speed
+Watch the video at: https://www.youtube.com/watch?v=gltzZjKYK1I.
 
 ## View slides locally
 
